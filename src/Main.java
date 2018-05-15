@@ -37,7 +37,7 @@ public class Main {
     // TODO implementar ID3 aqui
     private static void runId3(List<DadoDeConhecimento> conjuntoDeTreinamento, List<DadoDeConhecimento> conjuntoDeTeste) {
         System.out.println("Treinando com o conjunto "+conjuntoDeTeste);
-        System.out.println("Testando com o conjunto "+conjuntoDeTreinamento);
+        System.out.println("Testando com o conjunto meu pau "+conjuntoDeTreinamento);
         System.out.println();
     }
 
