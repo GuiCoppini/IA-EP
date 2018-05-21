@@ -8,5 +8,5 @@ public class Main {
 		// roda o cross fold e chama id3 la dentro
 		KFoldCrossValidation.roda(10, todosOsDados);
 	}
-// te amo
+
 }

@@ -54,18 +54,24 @@ public class KFoldCrossValidation {
 		}
 	}
 
-	static void add(HashMap att) {
-		att.put("Sentimento", "Odio");
-		att.put("Temperatura", "35");
-		att.put("Classe", "nenhhuma");
+	static void add(HashMap att, int i) {
+		if (i % 2 == 0) {
+			att.put("Sentimento", "Odio");
+			att.put("Temperatura", "frio");
+			att.put("Classe", "felipe");
+		} else {
+			att.put("Sentimento", "Terror");
+			att.put("Temperatura", "quente");
+			att.put("Classe", "smith");
+		}
 
 	}
 
 	public static void populaListaTotal(List<DadoDeConhecimento> todosOsDados, int tamanho) {
 		for (int i = 1; i <= tamanho; i++) {
 			HashMap<String, String> att = new HashMap<String, String>();
-			add(att);
-			todosOsDados.add(new DadoDeConhecimento("nome ", att));
+			add(att, i);
+			todosOsDados.add(new DadoDeConhecimento("nome", att));
 		}
 	}
 
