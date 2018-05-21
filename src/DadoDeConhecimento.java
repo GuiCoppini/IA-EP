@@ -1,12 +1,20 @@
+import java.util.HashMap;
+
 public class DadoDeConhecimento {
-    public String nome;
+	public String nome;
+	public HashMap<String, String> att = new HashMap<String, String>();
 
-    public DadoDeConhecimento(String nome) {
-        this.nome=nome;
-    }
+	public DadoDeConhecimento(String nome, HashMap atributos) {
+		this.nome = nome;
+		this.att = atributos;
+	}
 
-    @Override
-    public String toString() {
-        return nome;
-    }
+	
+	public String getName() {
+		return nome;
+	}
+	
+	public HashMap getAtt() {
+		return att;
+	}
 }
