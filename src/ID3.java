@@ -47,7 +47,7 @@ public class ID3 {
 		HashMap<String, Integer> frequencia = new HashMap<String, Integer>();
 		// guardar o numero de aparicoes de cada valor.
 		for (int i = 0; i < conjunto.size(); i++) {
-			HashMap<String, String> att = conjunto.get(i).getAtt();
+			Map<String, String> att = conjunto.get(i).getAtt();
 			// iterando sobre os atributos, da linha;
 			Set set = att.entrySet();
 			Iterator iterator = set.iterator();

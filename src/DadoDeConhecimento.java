@@ -1,10 +1,11 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class DadoDeConhecimento {
 	public String nome;
-	public HashMap<String, String> att = new HashMap<String, String>();
+	public Map<String, String> att;
 
-	public DadoDeConhecimento(String nome, HashMap atributos) {
+	public DadoDeConhecimento(String nome, Map<String,String> atributos) {
 		this.nome = nome;
 		this.att = atributos;
 	}
@@ -14,7 +15,7 @@ public class DadoDeConhecimento {
 		return nome;
 	}
 	
-	public HashMap getAtt() {
+	public Map getAtt() {
 		return att;
 	}
 }
