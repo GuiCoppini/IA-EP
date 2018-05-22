@@ -1,18 +1,16 @@
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Collections;
+import javafx.util.Pair;
 
-public class ID3 {
+import java.util.*;
 
-    String[] nome_atributos = BaseDeConhecimento.getAtributos();
+public class ID3Utils {
+
+    static String[] nomeAtributos = BaseDeConhecimento.getAtributos();
+
+
     //List<Map<String, Integer>> mapaDeFrequencia = new ArrayList<Map<String, Integer>>(); // Lista de HashMap
 
-    public String maiorGanhoDeInformacao(HashMap<String, Double> ganho) {
+    public static String maiorGanhoDeInformacao(Map<String, Double> ganho) {
         //retorna qual nome do maior atributo
         // ta retornando errado.. ta retornando a propria classe
         double a = Collections.max(ganho.values());
@@ -24,7 +22,7 @@ public class ID3 {
         return "";
     }
 
-    public void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
+    public static void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
         List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
         //IMPORTANTE: GUARDA A ENTROPIA DE CADA VALOR (USA PARA MONTAR A ARVORE E VERIFICAR SE EH FOLHA (ENTROPIA = 0);
         //Uma List onde: cada hashmap representa os valores que a coluna (Atributo) tem. Os hashs guardam a classe de frequencias daquele valor;
@@ -39,7 +37,7 @@ public class ID3 {
             // para cada Hash, a gente verifica a distribuicao de classes dele. Adiciona essa distribuicao na classe;
             Set<String> chaves = hash.keySet();
             for (String chave : chaves) {
-                System.out.println(hash.get(chave).nome_atributo);
+                System.out.println(hash.get(chave).nomeAtributo);
                 System.out.println(" Valor: " + hash.get(chave).valor + " Numero de ocorrencias: " + hash.get(chave).numero_de_ocorrencias + "( "
                         + hash.get(chave).getDistribuicao()[0] + ", " + hash.get(chave).getDistribuicao()[1] + ")");
                 System.out.println("A entropia é: " + hash.get(chave).getEntropia());
@@ -54,7 +52,7 @@ public class ID3 {
 
     }
 
-    private HashMap<String, Double> ganhoDeInformacao(List<HashMap<String, FrequenciaValorAtributo>> frequencias, int numero_de_classes, List<Dado> conjunto) {
+    private static HashMap<String, Double> ganhoDeInformacao(List<HashMap<String, FrequenciaValorAtributo>> frequencias, int numero_de_classes, List<Dado> conjunto) {
         //Recebe a lista de todos os atributos.
         //calcular ganho de informacao = entropia geral - somatoria da entropia do atributo para cada valor;
         // vou devolver um hashmap de ganhho de info. key eh o nome do atributo;
@@ -73,7 +71,7 @@ public class ID3 {
             calculaEntropiaAtributo(hash, numero_de_classes); //Calcula entropia para cada atributo
             for (String chave : chaves) {
                 valorAnalisado = hash.get(chave);
-                nomeAtributo = valorAnalisado.nome_atributo;
+                nomeAtributo = valorAnalisado.nomeAtributo;
                 ocorrencias = (double) (valorAnalisado.numero_de_ocorrencias);
                 //percorro o hashmap subtraindo as entropias
                 proporcaoValor = ocorrencias / conjunto.size();
@@ -84,8 +82,8 @@ public class ID3 {
         return ganhoDeInformacao;
     }
 
-    private double calculaEntropiaGeral(List<Dado> conjunto) {
-        int classe = nome_atributos.length - 1;
+    private static double calculaEntropiaGeral(List<Dado> conjunto) {
+        int classe = nomeAtributos.length - 1;
         HashMap<String, Integer> frequenciaClasse = analisaFrequencias(conjunto, classe);//vai me retornar a distribuicao da classe
         double entropia = 0;
         Set<String> chaves = frequenciaClasse.keySet();
@@ -100,7 +98,7 @@ public class ID3 {
         return entropia;
     }
 
-    private void calculaEntropiaAtributo(HashMap<String, FrequenciaValorAtributo> frequencias, int numero_de_classe) {
+    private static void calculaEntropiaAtributo(HashMap<String, FrequenciaValorAtributo> frequencias, int numeroDeClasses) {
         //Calcular a entropia do atributo
         double entropia = 0;
         double proporcao = 0;
@@ -113,7 +111,7 @@ public class ID3 {
             entropia = 0;
             //navega pelo Hash map.
             valorAnalisado = frequencias.get(chave);
-            for (int i = 0; i < numero_de_classe; i++) {
+            for (int i = 0; i < numeroDeClasses; i++) {
                 distribuicao = (double) valorAnalisado.getDistribuicao()[i];
                 total = (double) (valorAnalisado.numero_de_ocorrencias);
                 proporcao = (distribuicao / total);
@@ -125,17 +123,17 @@ public class ID3 {
     }
 
 
-    private void verificaDistribuicaoPorClasse
+    private static void verificaDistribuicaoPorClasse
             (HashMap<String, FrequenciaValorAtributo> frequencias, List<Dado> conjunto, int numero_de_classes) {
         // Analisar a distribuicao de classes para cada valor do atributo; colocar o resultado num vetor dentro do hash frequencia desse valor;
         Set<String> chaves = frequencias.keySet();
-        String nomeClasse = nome_atributos[nome_atributos.length - 1];
+        String nomeClasse = nomeAtributos[nomeAtributos.length - 1];
         for (String chave : chaves) { // iterando sobre o hash
 
             //System.out.println("Valor atributo: " + chave + "Total: " + frequencias.get(chave).numero_de_ocorrencias);
-            List<Dado> filtro = BaseDeConhecimento.filter(conjunto, frequencias.get(chave).nome_atributo, chave);
+            List<Dado> filtro = BaseDeConhecimento.filter(conjunto, frequencias.get(chave).nomeAtributo, chave);
             //filtrei apenas para linhas que possuem aquele valor;
-            HashMap<String, Integer> hashfrequenciaClasse = analisaFrequencias(filtro, nome_atributos.length - 1);
+            HashMap<String, Integer> hashfrequenciaClasse = analisaFrequencias(filtro, nomeAtributos.length - 1);
             //chamar o analisa Frequencia para ver a frequencia apenas da última coluna (classe) ;
             Set<String> chavesClasse = hashfrequenciaClasse.keySet();
             int i = 0;
@@ -159,7 +157,7 @@ public class ID3 {
         }
     }
 
-    private List<HashMap<String, FrequenciaValorAtributo>> inicializaFreq(List<Dado> conjunto) {
+    private static List<HashMap<String, FrequenciaValorAtributo>> inicializaFreq(List<Dado> conjunto) {
         List<HashMap<String, FrequenciaValorAtributo>> listaDeFreq = new ArrayList<HashMap<String, FrequenciaValorAtributo>>();
         HashMap<String, FrequenciaValorAtributo> HashValor = null;
         // criar a classe FrequenciaValorAtributo para cada valor que podemos ter.
@@ -174,9 +172,9 @@ public class ID3 {
             for (String chave : chaves)
                 if (chave != null) {
                     //to dentro do hashMap.
-                    FrequenciaValorAtributo freq = new FrequenciaValorAtributo(chave, nome_atributos[i], hash.get(chave));
+                    FrequenciaValorAtributo freq = new FrequenciaValorAtributo(chave, nomeAtributos[i], hash.get(chave));
                     HashValor.put(chave, freq); // atribui ao Hash a chave (valor) e esse hash vai retornar a classe desse valor;
-                    //System.out.println(freq.nome_atributo + " Valor: " + freq.valor + " Numero: " + freq.numero_de_ocorrencias);
+                    //System.out.println(freq.nomeAtributo + " Valor: " + freq.valor + " Numero: " + freq.numero_de_ocorrencias);
                 }
             listaDeFreq.add(HashValor); //separa os hashs por atributo.
             i++;
@@ -185,9 +183,9 @@ public class ID3 {
     }
 
 
-    private List<Map<String, Integer>> analisaValores(List<Dado> conjunto) {
+    private static List<Map<String, Integer>> analisaValores(List<Dado> conjunto) {
         List<Map<String, Integer>> myMap = new ArrayList<Map<String, Integer>>();
-        for (int atributo_analisado = 0; atributo_analisado < nome_atributos.length; atributo_analisado++) {
+        for (int atributo_analisado = 0; atributo_analisado < nomeAtributos.length; atributo_analisado++) {
             // Constroi um hashmap de frequencia para cada valor possível de cada atributo
             // e salva numa lista de Hashmaps;
             HashMap<String, Integer> frequencia = analisaFrequencias(conjunto, atributo_analisado);
@@ -196,7 +194,7 @@ public class ID3 {
         return myMap;
     }
 
-    private HashMap<String, Integer> analisaFrequencias(List<Dado> conjunto, int numero_atributo) {
+    private static HashMap<String, Integer> analisaFrequencias(List<Dado> conjunto, int numero_atributo) {
         HashMap<String, Integer> frequencia = new HashMap<String, Integer>();
         // guardar o numero de aparicoes de cada valor.
         for (int i = 0; i < conjunto.size(); i++) {
@@ -206,7 +204,7 @@ public class ID3 {
             Iterator iterator = set.iterator();
             while (iterator.hasNext()) {
                 Map.Entry mentry = (Map.Entry) iterator.next();
-                if (mentry.getKey().equals(nome_atributos[numero_atributo])) {
+                if (mentry.getKey().equals(nomeAtributos[numero_atributo])) {
                     // Entra no if para pegar a key que contem o atributo que eu to analisando
                     // agora.
                     // O valor do hash, vai virar chave do novo hash e o valor é o número de

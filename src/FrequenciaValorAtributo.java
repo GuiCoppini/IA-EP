@@ -1,6 +1,6 @@
 public class FrequenciaValorAtributo {
     String valor = "";
-    String nome_atributo = "";
+    String nomeAtributo = "";
 
     int numero_de_ocorrencias = 0;
     int[] distribuicaoPorClasse;
@@ -9,7 +9,7 @@ public class FrequenciaValorAtributo {
 
     public FrequenciaValorAtributo(String valor, String att, int numero_de_ocorrencias) {
         this.valor = valor;
-        this.nome_atributo = att;
+        this.nomeAtributo = att;
         this.numero_de_ocorrencias = numero_de_ocorrencias;
     }
 

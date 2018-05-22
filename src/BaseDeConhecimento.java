@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class BaseDeConhecimento {
 
-    private static String[] nome_atributos;
+    private static String[] nomeAtributos;
 
 
+    // mantem na lista final todos os Dados cujo dado.map.key tenha o valor value
+    // Exemplo: filter(lista, "vento", "forte") mantem todos os dados com vento forte
     public static List<Dado> filter(List<Dado> lista, String key, String value) {
         List<Dado> copy = new ArrayList<>(lista);
         List<Dado> result = new ArrayList<>();
@@ -23,7 +25,6 @@ public class BaseDeConhecimento {
         }
         return result;
     }
-
 
     public static void removeAttribute(String attributeName, HashMap hash) {
         hash.remove(attributeName);
@@ -82,17 +83,17 @@ public class BaseDeConhecimento {
     }
 
     private static void setAtributos(String[] colunas) {
-        nome_atributos = new String[colunas.length];
+        nomeAtributos = new String[colunas.length];
         int i = 0;
         for (String s : colunas) {
-            nome_atributos[i] = s;
+            nomeAtributos[i] = s;
             i++;
         }
     }
 
 
     public static String[] getAtributos() {
-        return nome_atributos;
+        return nomeAtributos;
     }
 
 }

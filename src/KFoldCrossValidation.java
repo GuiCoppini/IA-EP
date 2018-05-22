@@ -1,11 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class KFoldCrossValidation {
-
-	static ID3 id3 = new ID3();
 
 	public static void roda(int k, List<Dado> todosOsDados) {
 		List<Dado> totalCopy = new ArrayList<>(todosOsDados); // nao mudar a lista original
@@ -24,9 +21,9 @@ public class KFoldCrossValidation {
 					conjuntoDeTreinamento.addAll(new ArrayList<>(foldsSeparados.get(j))); // pois sao passados por
 																							// ponteiro
 			}
-			// VE COMO RODA NA ID3
+			// VE COMO RODA NA ID3Utils
 			System.out.println("Teste " + i);
-			id3.runId3(todosOsDados, todosOsDados);
+			ID3Utils.runId3(todosOsDados, todosOsDados);
 		}
 	}
 
