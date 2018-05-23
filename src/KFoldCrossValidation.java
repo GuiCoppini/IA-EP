@@ -54,7 +54,7 @@ public class KFoldCrossValidation {
 		}
 	}
 
-	static void add(HashMap att, int i) {
+	/*static void add(HashMap att, int i) {
 		if (i % 2 == 0) {
 			att.put("Sentimento", "Odio");
 			att.put("Temperatura", "frio");
@@ -73,6 +73,6 @@ public class KFoldCrossValidation {
 			add(att, i);
 			todosOsDados.add(new Dado("nome", att));
 		}
-	}
+	}*/
 
 }
