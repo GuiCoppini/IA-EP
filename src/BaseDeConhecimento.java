@@ -25,7 +25,7 @@ public class BaseDeConhecimento {
     }
 
     public static List<Dado> parseCSV() {
-        String csvFile = "adult.csv";
+        String csvFile = "adultSemfnlwgt.csv";
         BufferedReader br = null;
         String line;
         String splitBy = ";";
@@ -38,7 +38,7 @@ public class BaseDeConhecimento {
             while ((line = br.readLine()) != null) {
                 String[] linha = line.split(splitBy);
                 if (colunas != null) {
-                    System.out.println("LINHA " + (count + 1));
+                    //  System.out.println("LINHA " + (count + 1));
 //		            System.out.println("LINE LENGTH "+ linha.length);
                     count++;
                     Map<String, String> rexi = new HashMap<>();
@@ -46,7 +46,7 @@ public class BaseDeConhecimento {
                     lista.add(count, rexi);
                 } else {
                     for (int i = 0; i < linha.length; i++) System.out.println(linha[i]);
-                    System.out.println("END COLUNAS");
+                    //   System.out.println("END COLUNAS");
                     colunas = linha;
                 }
             }
@@ -89,4 +89,5 @@ public class BaseDeConhecimento {
     public static String[] getAtributos() {
         return nome_atributos;
     }
+
 }
