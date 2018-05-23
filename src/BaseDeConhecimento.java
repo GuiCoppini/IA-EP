@@ -8,9 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 public class BaseDeConhecimento {
+    public static List<Dado> filter(List<Dado> lista, String key, String value) {
+        List<Dado> copy = new ArrayList<>(lista);
+        List<Dado> result = new ArrayList<>();
 
-    public static void main(String[] args) {
+        for(Dado dado : copy) {
+            if (value.equals(dado.getAttr(key))) {
+                result.add(dado);
+            }
+        }
+        return result;
+    }
 
+    public static List<Dado> parseCSV() {
         String csvFile = "adult.csv";
         BufferedReader br = null;
         String line;
@@ -56,16 +66,11 @@ public class BaseDeConhecimento {
 
         for(String coluna : colunas) System.out.print(coluna+" ");
         System.out.println();
-        DadoDeConhecimento[] base = new DadoDeConhecimento[lista.size()];
-        for(int i = 0 ; i < base.length ; i++){
-            base[i] = new DadoDeConhecimento("nome" , lista.get(i));
+        List<Dado> base = new ArrayList<>(lista.size());
+        for(int i = 0 ; i < lista.size() ; i++){
+            base.add(new Dado("nome" , lista.get(i)));
         }
-        for(int i = 0 ; i < base.length ; i++){
-            for(int j = 0 ; j < base[i].getAtt().size() ; j++){
-                System.out.print(base[i].getAtt().get(colunas[j]));
-            }
-            System.out.println();
-        }
+        return base;
     }
 
 }

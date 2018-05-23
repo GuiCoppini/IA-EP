@@ -12,8 +12,8 @@ public class ID3 {
 
 	List<Map<String, Integer>> mapaDeFrequencia = new ArrayList<Map<String, Integer>>(); // Lista de HashMap
 
-	public void runId3(List<DadoDeConhecimento> conjuntoDeTreinamento, List<DadoDeConhecimento> conjuntoDeTeste) {
-		analisaValores(conjuntoDeTreinamento); // Calcular as frequencias de cada att.
+	public void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
+		analisaValores(conjuntoDeTreinamento); // Calcular as frequencias de cada map.
 		// Percorre a lista de hashmaps de frequencias e imprime cada um deles;
 		// Cada atributo (coluna) terá seu próprio HashMap de frequencia;
 		int i = 0;
@@ -32,7 +32,7 @@ public class ID3 {
 
 	}
 
-	public void analisaValores(List<DadoDeConhecimento> conjunto) {
+	public void analisaValores(List<Dado> conjunto) {
 		List<Map<String, Integer>> myMap = new ArrayList<Map<String, Integer>>();
 		for (int atributo_analisado = 0; atributo_analisado < nome_atributos.length; atributo_analisado++) {
 			// Constroi um hashmap de frequencia para cada valor possível de cada atributo
@@ -43,11 +43,11 @@ public class ID3 {
 		mapaDeFrequencia = myMap;
 	}
 
-	private HashMap analisaFrequencias(List<DadoDeConhecimento> conjunto, int numero_atributo) {
+	private HashMap analisaFrequencias(List<Dado> conjunto, int numero_atributo) {
 		HashMap<String, Integer> frequencia = new HashMap<String, Integer>();
 		// guardar o numero de aparicoes de cada valor.
 		for (int i = 0; i < conjunto.size(); i++) {
-			Map<String, String> att = conjunto.get(i).getAtt();
+			Map<String, String> att = conjunto.get(i).getMap();
 			// iterando sobre os atributos, da linha;
 			Set set = att.entrySet();
 			Iterator iterator = set.iterator();
