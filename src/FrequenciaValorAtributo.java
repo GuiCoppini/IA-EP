@@ -1,9 +1,10 @@
 public class FrequenciaValorAtributo {
-    String valor = null;
-    String nome_atributo = null;
+    String valor = "";
+    String nome_atributo = "";
 
     int numero_de_ocorrencias = 0;
     int[] distribuicaoPorClasse;
+    double entropia = 0;
 
 
     public FrequenciaValorAtributo(String valor, String att, int numero_de_ocorrencias) {
@@ -18,5 +19,13 @@ public class FrequenciaValorAtributo {
 
     public int[] getDistribuicao() {
         return distribuicaoPorClasse;
+    }
+
+    public void setEntropia(double entropia) {
+        this.entropia = entropia;
+    }
+
+    public double getEntropia() {
+        return this.entropia;
     }
 }
