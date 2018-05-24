@@ -1,4 +1,3 @@
-import com.sun.xml.internal.rngom.parse.host.Base;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,20 +5,33 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 
 public class ID3 {
 
     String[] nome_atributos = BaseDeConhecimento.getAtributos();
-
     //List<Map<String, Integer>> mapaDeFrequencia = new ArrayList<Map<String, Integer>>(); // Lista de HashMap
 
-    public void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
+    public String maiorGanhoDeInformacao(HashMap<String, Double> ganho) {
+        //retorna qual nome do maior atributo
+        // ta retornando errado.. ta retornando a propria classe
+        double a = Collections.max(ganho.values());
+        Set<String> chaves = ganho.keySet();
+        for (String chave : chaves) {
+            if (ganho.get(chave) == a)
+                return chave;
+        }
+        return "";
+    }
 
+    public void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
         List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
+        //IMPORTANTE: GUARDA A ENTROPIA DE CADA VALOR (USA PARA MONTAR A ARVORE E VERIFICAR SE EH FOLHA (ENTROPIA = 0);
         //Uma List onde: cada hashmap representa os valores que a coluna (Atributo) tem. Os hashs guardam a classe de frequencias daquele valor;
         // inicializa N classes, uma para cada valor que os atributos podem ter. (faz para TODOS);
         int numero_de_classes = 2; // ta estatico mas pode mudar dps.
         HashMap<String, Double> ganho = ganhoDeInformacao(frequencias, numero_de_classes, conjuntoDeTreinamento);
+        String a = maiorGanhoDeInformacao(ganho);
         //passa a lista toda de atributos, e ele me retorna um hash com o nome do atributo como key, e qual o seu ganho de informacao;
         //Ganho de informacao faz tudo (calcula distribuicao por classe, entropia de todos os atributos e depois seu ganho de info.
         System.out.println("Printando entropias e distribuicao");
@@ -211,4 +223,6 @@ public class ID3 {
         }
         return frequencia;
     }
+
+
 }

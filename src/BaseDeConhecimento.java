@@ -24,8 +24,13 @@ public class BaseDeConhecimento {
         return result;
     }
 
+
+    public static void removeAttribute(String attributeName, HashMap hash) {
+        hash.remove(attributeName);
+    }
+
     public static List<Dado> parseCSV() {
-        String csvFile = "PlayTennis.csv";
+        String csvFile = "adult_discretizado_v1.csv";
         BufferedReader br = null;
         String line;
         String splitBy = ";";
