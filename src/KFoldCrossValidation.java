@@ -26,7 +26,7 @@ public class KFoldCrossValidation {
 			}
 			// VE COMO RODA NA ID3
 			System.out.println("Teste " + i);
-			id3.runId3(conjuntoDeTreinamento, conjuntoDeTeste);
+			id3.runId3(todosOsDados, todosOsDados);
 		}
 	}
 

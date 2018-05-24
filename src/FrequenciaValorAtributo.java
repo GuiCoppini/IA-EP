@@ -2,7 +2,6 @@ public class FrequenciaValorAtributo {
     String valor = null;
     String nome_atributo = null;
 
-    //int numero_de_classes = BaseDeConhecimento.numero_de_classes();
     int numero_de_ocorrencias = 0;
     int[] distribuicaoPorClasse;
 

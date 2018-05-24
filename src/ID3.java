@@ -15,19 +15,24 @@ public class ID3 {
 
 
     public void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
-        HashMap<String, FrequenciaValorAtributo> frequencias = inicializaFreq(conjuntoDeTreinamento);
+
+        List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
+        //HashMap<String, FrequenciaValorAtributo>
         //inicializa N classes, uma para cada valor que os atributos podem ter. (faz para TODOS);
         // retornar um HASH <String,FrequenciaValorAtributo>. e ai quando eu colocar a key <valor do atributo>, ele retorna a classe daquele valor com as analises;
         int numero_de_classes = 2;
-        verificaDistribuicaoPorClasse(frequencias, conjuntoDeTreinamento, numero_de_classes);
-        Set<String> chaves = frequencias.keySet();
-        for (String chave : chaves) {
-            System.out.println(frequencias.get(chave).nome_atributo);
-            System.out.println(" Valor: " + frequencias.get(chave).valor + " Numero de ocorrencias: " + frequencias.get(chave).numero_de_ocorrencias + "( "
-                    + frequencias.get(chave).getDistribuicao()[0] + ", " + frequencias.get(chave).getDistribuicao()[1] + ")");
+        for (HashMap<String, FrequenciaValorAtributo> hash : frequencias) {
+            verificaDistribuicaoPorClasse(hash, conjuntoDeTreinamento, numero_de_classes);
+            Set<String> chaves = hash.keySet();
+            for (String chave : chaves) {
+                System.out.println(hash.get(chave).nome_atributo);
+                System.out.println(" Valor: " + hash.get(chave).valor + " Numero de ocorrencias: " + hash.get(chave).numero_de_ocorrencias + "( "
+                        + hash.get(chave).getDistribuicao()[0] + ", " + hash.get(chave).getDistribuicao()[1] + ")");
 
+            }
         }
         System.out.println();
+
     }
 
     private void verificaDistribuicaoPorClasse(HashMap<String, FrequenciaValorAtributo> frequencias, List<Dado> conjunto, int numero_de_classes) {
@@ -63,14 +68,16 @@ public class ID3 {
         }
     }
 
-    public HashMap<String, FrequenciaValorAtributo> inicializaFreq(List<Dado> conjunto) {
-        HashMap<String, FrequenciaValorAtributo> HashValor = new HashMap<String, FrequenciaValorAtributo>();
+    private List<HashMap<String, FrequenciaValorAtributo>> inicializaFreq(List<Dado> conjunto) {
+        List<HashMap<String, FrequenciaValorAtributo>> listaDeFreq = new ArrayList<HashMap<String, FrequenciaValorAtributo>>();
+        HashMap<String, FrequenciaValorAtributo> HashValor = null;
         // criar a classe FrequenciaValorAtributo para cada valor que podemos ter.
         // ela guardará o valor do atributo (nome), o numero total de ocorrencias, o valor de cada classe distribuida.
         // vou criar a partir da lista de frequencias.
         List<Map<String, Integer>> mapaDeFrequencia = analisaValores(conjunto);
         int i = 0;
         for (Map<String, Integer> hash : mapaDeFrequencia) {
+            HashValor = new HashMap<String, FrequenciaValorAtributo>();
             // Percorre mapa de frequencias e sai imprimindo
             Set<String> chaves = hash.keySet();
             for (String chave : chaves)
@@ -80,9 +87,10 @@ public class ID3 {
                     HashValor.put(chave, freq); // atribui ao Hash a chave (valor) e esse hash vai retornar a classe desse valor;
                     //System.out.println(freq.nome_atributo + " Valor: " + freq.valor + " Numero: " + freq.numero_de_ocorrencias);
                 }
+            listaDeFreq.add(HashValor); //separa os hashs por atributo.
             i++;
         }
-        return HashValor;
+        return listaDeFreq;
     }
 
 
