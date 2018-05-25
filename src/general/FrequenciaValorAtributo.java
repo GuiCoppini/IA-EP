@@ -1,10 +1,12 @@
-public class FrequenciaValorAtributo {
-    String valor = "";
-    String nomeAtributo = "";
+package general;
 
-    int numeroDeOcorrencias = 0;
-    int[] distribuicaoPorClasse;
-    double entropia = 0;
+public class FrequenciaValorAtributo {
+    public String valor = "";
+    public String nomeAtributo = "";
+
+    public int numeroDeOcorrencias = 0;
+    public int[] distribuicaoPorClasse;
+    public double entropia = 0;
 
 
     public FrequenciaValorAtributo(String valor, String att, int numeroDeOcorrencias) {

@@ -1,4 +1,11 @@
+package general.Utilitarios;
+
 import java.util.*;
+
+import general.Dado;
+import general.FrequenciaValorAtributo;
+import general.Utilitarios.BaseDeConhecimento;
+import general.Utilitarios.Calculo;
 
 public class ID3Utils {
 
@@ -28,11 +35,11 @@ public class ID3Utils {
         String nomeClasse = nomeAtributos[nomeAtributos.length - 1];
         List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
         String melhorAtributo = maiorGanhoDeInformacao(nomeClasse, frequencias, numeroDeClasses, conjuntoDeTreinamento); //proximo atributo
-        // Node novoNo = new Node(melhorAtributo, novaEntropia());
+        // general.Arvore.Node novoNo = new general.Arvore.Node(melhorAtributo, novaEntropia());
         //passa a lista toda de atributos, e ele me retorna um hash com o nome do atributo como key, e qual o seu ganho de informacao;
         //Ganho de informacao faz tudo (calcula distribuicao por classe, entropia de todos os atributos e depois seu ganho de info.
         /*System.out.println("Printando entropias e distribuicao");
-        for (HashMap<String, FrequenciaValorAtributo> hash : frequencias) {
+        for (HashMap<String, general.FrequenciaValorAtributo> hash : frequencias) {
             // para cada Hash, a gente verifica a distribuicao de classes dele. Adiciona essa distribuicao na classe;
             Set<String> chaves = hash.keySet();
             for (String chave : chaves) {
@@ -166,7 +173,7 @@ public class ID3Utils {
     private static List<HashMap<String, FrequenciaValorAtributo>> inicializaFreq(List<Dado> conjunto) {
         List<HashMap<String, FrequenciaValorAtributo>> listaDeFreq = new ArrayList<HashMap<String, FrequenciaValorAtributo>>();
         HashMap<String, FrequenciaValorAtributo> HashValor = null;
-        // criar a classe FrequenciaValorAtributo para cada valor que podemos ter.
+        // criar a classe general.FrequenciaValorAtributo para cada valor que podemos ter.
         // ela guardará o valor do atributo (nome), o numero total de ocorrencias, o valor de cada classe distribuida.
         // vou criar a partir da lista de frequencias.
         List<Map<String, Integer>> mapaDeFrequencia = analisaValores(conjunto);

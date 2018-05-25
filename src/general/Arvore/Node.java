@@ -1,10 +1,15 @@
+package general.Arvore;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import general.Arvore.Branch;
+import general.Dado;
+
 public class Node {
-    String nomeAtributo;
-    boolean folha;
-    List<Branch> arestas = new ArrayList<>();
+    public String nomeAtributo;
+    public boolean folha;
+    public List<Branch> arestas = new ArrayList<>();
 
     public Node(String nomeAtributo) {
         this.nomeAtributo = nomeAtributo;

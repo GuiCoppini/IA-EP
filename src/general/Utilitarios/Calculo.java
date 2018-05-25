@@ -1,3 +1,4 @@
+package general.Utilitarios;
 
 public class Calculo {
     public static double log2(double n) {
