@@ -1,9 +1,9 @@
-package general.Arvore;
+package general.arvore;
 
 import java.util.List;
 
 import general.Dado;
-import general.Utilitarios.BaseDeConhecimento;
+import general.utilitarios.BaseDeConhecimento;
 
 public class Branch {
     // classe aresta;

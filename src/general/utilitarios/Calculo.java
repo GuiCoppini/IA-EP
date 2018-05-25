@@ -1,4 +1,4 @@
-package general.Utilitarios;
+package general.utilitarios;
 
 public class Calculo {
     public static double log2(double n) {

@@ -1,11 +1,10 @@
-package general.Utilitarios;
+package general.utilitarios;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import general.Dado;
-import general.Utilitarios.ID3Utils;
 
 public class KFoldCrossValidation {
 
@@ -26,7 +25,7 @@ public class KFoldCrossValidation {
 					conjuntoDeTreinamento.addAll(new ArrayList<>(foldsSeparados.get(j))); // pois sao passados por
 																							// ponteiro
 			}
-			// VE COMO RODA NA general.Utilitarios.ID3Utils
+			// VE COMO RODA NA general.utilitarios.ID3Utils
 			System.out.println("Teste " + i);
 			ID3Utils.runId3(todosOsDados, todosOsDados);
 		}

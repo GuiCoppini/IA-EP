@@ -1,9 +1,8 @@
-package general.Arvore;
+package general.arvore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import general.Arvore.Branch;
 import general.Dado;
 
 public class Node {

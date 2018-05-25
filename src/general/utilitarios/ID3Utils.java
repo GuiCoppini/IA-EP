@@ -1,11 +1,9 @@
-package general.Utilitarios;
+package general.utilitarios;
 
 import java.util.*;
 
 import general.Dado;
 import general.FrequenciaValorAtributo;
-import general.Utilitarios.BaseDeConhecimento;
-import general.Utilitarios.Calculo;
 
 public class ID3Utils {
 
@@ -35,7 +33,7 @@ public class ID3Utils {
         String nomeClasse = nomeAtributos[nomeAtributos.length - 1];
         List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
         String melhorAtributo = maiorGanhoDeInformacao(nomeClasse, frequencias, numeroDeClasses, conjuntoDeTreinamento); //proximo atributo
-        // general.Arvore.Node novoNo = new general.Arvore.Node(melhorAtributo, novaEntropia());
+        // general.arvore.Node novoNo = new general.arvore.Node(melhorAtributo, novaEntropia());
         //passa a lista toda de atributos, e ele me retorna um hash com o nome do atributo como key, e qual o seu ganho de informacao;
         //Ganho de informacao faz tudo (calcula distribuicao por classe, entropia de todos os atributos e depois seu ganho de info.
         /*System.out.println("Printando entropias e distribuicao");

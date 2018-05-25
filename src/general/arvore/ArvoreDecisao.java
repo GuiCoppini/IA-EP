@@ -1,4 +1,4 @@
-package general.Arvore;
+package general.arvore;
 
 import java.util.List;
 

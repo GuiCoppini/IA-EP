@@ -1,4 +1,4 @@
-package general.Utilitarios;
+package general.utilitarios;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
