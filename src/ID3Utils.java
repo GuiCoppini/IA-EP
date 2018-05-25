@@ -32,17 +32,19 @@ public class ID3Utils {
         return "";
     }
 
+
     public static void runId3(List<Dado> conjuntoDeTreinamento, List<Dado> conjuntoDeTeste) {
-        List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
         //IMPORTANTE: GUARDA A ENTROPIA DE CADA VALOR (USA PARA MONTAR A ARVORE E VERIFICAR SE EH FOLHA (ENTROPIA = 0);
         //Uma List onde: cada hashmap representa os valores que a coluna (Atributo) tem. Os hashs guardam a classe de frequencias daquele valor;
         // inicializa N classes, uma para cada valor que os atributos podem ter. (faz para TODOS);
         int numeroDeClasses = 2; // ta estatico mas pode mudar dps.
         String nomeClasse = nomeAtributos[nomeAtributos.length - 1];
-        String melhorAtributo = maiorGanhoDeInformacao(nomeClasse, frequencias, numeroDeClasses, conjuntoDeTreinamento);
+        List<HashMap<String, FrequenciaValorAtributo>> frequencias = inicializaFreq(conjuntoDeTreinamento);
+        String melhorAtributo = maiorGanhoDeInformacao(nomeClasse, frequencias, numeroDeClasses, conjuntoDeTreinamento); //proximo atributo
+        // Node novoNo = new Node(melhorAtributo, novaEntropia());
         //passa a lista toda de atributos, e ele me retorna um hash com o nome do atributo como key, e qual o seu ganho de informacao;
         //Ganho de informacao faz tudo (calcula distribuicao por classe, entropia de todos os atributos e depois seu ganho de info.
-        System.out.println("Printando entropias e distribuicao");
+        /*System.out.println("Printando entropias e distribuicao");
         for (HashMap<String, FrequenciaValorAtributo> hash : frequencias) {
             // para cada Hash, a gente verifica a distribuicao de classes dele. Adiciona essa distribuicao na classe;
             Set<String> chaves = hash.keySet();
@@ -59,7 +61,14 @@ public class ID3Utils {
         for (String chaveDoGanho : chavesGanho) {
             System.out.println("Ganho de informacao para o atributo: " + chaveDoGanho + " É : " + ganho.get(chaveDoGanho));
         }*/
+
         System.out.println("O MELHOR ATRIBUTO É O: " + melhorAtributo);
+
+    }
+
+    private static double novaEntropia(List<Dado> conjunto) {
+        double novaEntropia;
+        return novaEntropia = calculaEntropiaGeral(conjunto);
     }
 
     private static HashMap<String, Double> ganhoDeInformacao(List<HashMap<String, FrequenciaValorAtributo>> frequencias, int numero_de_classes, List<Dado> conjunto) {

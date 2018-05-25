@@ -6,9 +6,15 @@ public class Node {
     boolean folha;
     List<Branch> arestas = new ArrayList<>();
 
-    public Node(String nomeAtributo, int entropia) {
+    public Node(String nomeAtributo) {
         this.nomeAtributo = nomeAtributo;
-        if (entropia == 0) folha = true;
     }
 
+    void criaNo() {
+    }
+
+    void criaFilho(List<Dado> conjunto) {
+        //ele vai ter que recortar o conjunto
+        //vai ter sua propria entropia
+    }
 }
