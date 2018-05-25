@@ -12,7 +12,7 @@ public class BaseDeConhecimento {
     private static String[] nomeAtributos;
 
 
-    // mantem na lista final todos os Dados cujo dado.map.key tenha o valor value
+    // mantem na lista final todos os Dados cujo dado.atributos.key tenha o valor value
     // Exemplo: filter(lista, "vento", "forte") mantem todos os dados com vento forte
     public static List<Dado> filter(List<Dado> lista, String key, String value) {
         List<Dado> copy = new ArrayList<>(lista);
@@ -26,8 +26,14 @@ public class BaseDeConhecimento {
         return result;
     }
 
-    public static void removeAttribute(String attributeName, HashMap hash) {
-        hash.remove(attributeName);
+    // devolve uma lista com todos os dados SEM o atributo key
+    public static List<Dado> removeAttribute(List<Dado> lista, String atributo) {
+        List<Dado> copy = new ArrayList<>(lista);
+        for(Dado dado : copy) {
+            dado.atributos.keySet().remove(atributo);
+        }
+
+        return copy;
     }
 
     public static List<Dado> parseCSV() {
@@ -76,7 +82,7 @@ public class BaseDeConhecimento {
         System.out.println();
         List<Dado> base = new ArrayList<>(lista.size());
         for (int i = 0; i < lista.size(); i++) {
-            base.add(new Dado("nome", lista.get(i)));
+            base.add(new Dado(lista.get(i)));
         }
         setAtributos(colunas);
         return base;

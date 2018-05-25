@@ -1,25 +1,24 @@
 import java.util.Map;
 
 public class Dado {
-	public String nome;
-	public Map<String, String> map;
+	public Map<String, String> atributos;
 
-	public Dado(String nome, Map<String,String> atributos) {
-		this.nome = nome;
-		this.map = atributos;
+	public Dado(Map<String,String> atributos) {
+		this.atributos = atributos;
 	}
 
 	// da o valor do atributo cujo nome/chave eh a key
 	// ex: dado.getAttr("vento") => "forte"
 	public String getAttr(String key) {
-		return this.map.get(key);
+		return this.atributos.get(key);
 	}
-	
-	public String getName() {
-		return nome;
+
+	public Map getAtributos() {
+		return atributos;
 	}
-	
-	public Map getMap() {
-		return map;
+
+	@Override
+	public String toString() {
+		return new StringBuilder().append("{").append("atributos=").append(atributos).append("}").toString();
 	}
 }

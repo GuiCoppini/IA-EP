@@ -4,19 +4,6 @@ public class ID3Utils {
 
     static String[] nomeAtributos = BaseDeConhecimento.getAtributos();
 
-    public static int getNumeroAtributo(String nome) {
-        //dado o nome do atributo, retorna sua posicao no array;
-        int i;
-        for (i = 0; i < nomeAtributos.length; i++) {
-            //percorre array e verifica qual o numero corresponde ao nome
-            if (nomeAtributos[i].equals(nome)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-
     //List<Map<String, Integer>> mapaDeFrequencia = new ArrayList<Map<String, Integer>>(); // Lista de HashMap
 
     public static String maiorGanhoDeInformacao(String classe, List<HashMap<String, FrequenciaValorAtributo>> frequencias, int numeroDeClasses, List<Dado> conjunto) {
@@ -128,7 +115,7 @@ public class ID3Utils {
         for (String chave :
                 chaves) {
             entropia = 0;
-            //navega pelo Hash map.
+            //navega pelo Hash atributos.
             valorAnalisado = frequencias.get(chave);
             for (int i = 0; i < numeroDeClasses; i++) {
                 distribuicao = (double) valorAnalisado.getDistribuicao()[i];
@@ -217,7 +204,7 @@ public class ID3Utils {
         HashMap<String, Integer> frequencia = new HashMap<String, Integer>();
         // guardar o numero de aparicoes de cada valor.
         for (int i = 0; i < conjunto.size(); i++) {
-            Map<String, String> att = conjunto.get(i).getMap();
+            Map<String, String> att = conjunto.get(i).getAtributos();
             // iterando sobre os atributos, da linha;
             Set set = att.entrySet();
             Iterator iterator = set.iterator();
