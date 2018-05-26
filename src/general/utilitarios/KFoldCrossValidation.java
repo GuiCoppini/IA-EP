@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import general.Dado;
+import general.arvore.DecisionTree;
 
 public class KFoldCrossValidation {
 
@@ -26,8 +27,9 @@ public class KFoldCrossValidation {
 																							// ponteiro
 			}
 			// VE COMO RODA NA general.utilitarios.ID3Utils
-			System.out.println("Teste " + i);
-			ID3Utils.runId3(todosOsDados, todosOsDados);
+//			ID3Utils.runId3(todosOsDados, todosOsDados);
+            DecisionTree decisionTree = new DecisionTree();
+
 		}
 	}
 

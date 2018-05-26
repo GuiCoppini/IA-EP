@@ -7,16 +7,15 @@ import general.utilitarios.BaseDeConhecimento;
 
 public class Branch {
     // classe aresta;
-    String valor = "";
+    String valorCondicao = "";
     Node pai;
     Node filho;
-    String atributoPai;
     List<Dado> conjuntoRecortado;
 
-    public Branch(List<Dado> conjuntoAntigo, String valor, String atributoPai, Node pai) {
-        this.valor = valor;
-        this.atributoPai = atributoPai;
+    public Branch(List<Dado> conjuntoAntigo, String valorCondicao, Node pai) {
+        this.valorCondicao = valorCondicao;
         this.pai = pai;
-        conjuntoRecortado = BaseDeConhecimento.filter(conjuntoAntigo, atributoPai, valor);
+        conjuntoRecortado = BaseDeConhecimento.filter(conjuntoAntigo, pai.nomeAtributo, valorCondicao);
     }
+
 }

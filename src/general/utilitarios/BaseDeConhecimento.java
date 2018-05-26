@@ -15,6 +15,8 @@ public class BaseDeConhecimento {
 
     private static String[] nomeAtributos;
 
+    public static final String NOME_CLASSE = nomeAtributos[nomeAtributos.length - 1];
+
 
     // mantem na lista final todos os Dados cujo dado.atributos.key tenha o valor value
     // Exemplo: filter(lista, "vento", "forte") mantem todos os dados com vento forte
