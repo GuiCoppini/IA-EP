@@ -1,11 +1,12 @@
 package general.utilitarios;
 
+import general.Dado;
+import general.arvore.DecisionTree;
+import general.arvore.Node;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import general.Dado;
-import general.arvore.DecisionTree;
 
 public class KFoldCrossValidation {
 
@@ -26,10 +27,9 @@ public class KFoldCrossValidation {
 					conjuntoDeTreinamento.addAll(new ArrayList<>(foldsSeparados.get(j))); // pois sao passados por
 																							// ponteiro
 			}
-			// VE COMO RODA NA general.utilitarios.ID3Utils
-//			ID3Utils.runId3(todosOsDados, todosOsDados);
-            DecisionTree decisionTree = new DecisionTree();
-
+			DecisionTree decisionTree = new DecisionTree();
+			Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);
+			System.out.println("ACURACIA: " + ID3Utils.testaAcuracia(conjuntoDeTeste, raiz));
 		}
 	}
 

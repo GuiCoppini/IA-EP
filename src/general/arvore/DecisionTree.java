@@ -8,13 +8,6 @@ import static general.utilitarios.BaseDeConhecimento.*;
 import static general.utilitarios.ID3Utils.*;
 
 public class DecisionTree {
-
-    public static void main(String[] args) {
-        DecisionTree decisionTree = new DecisionTree();
-        Node raiz = decisionTree.criaArvore(parseCSV());
-        System.out.println();
-    }
-
     public Node criaArvore(List<Dado> conjunto) {
         Node raiz = criaNode(conjunto);
 
@@ -23,7 +16,7 @@ public class DecisionTree {
         } else {
             //eh folha
             raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
-            System.out.println(raiz.nomeAtributo);
+//            System.out.println(raiz.nomeAtributo);
         }
         return raiz;
     }

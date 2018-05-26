@@ -34,7 +34,14 @@ public class BaseDeConhecimento {
 
     // devolve uma lista com todos os dados SEM o atributo key
     public static List<Dado> removeAttribute(List<Dado> lista, String atributo, List<String> nomeAtributos) {
-        List<Dado> copy = new ArrayList<>(lista);
+        List<Dado> copy = new ArrayList<>();
+
+        for(Dado dado : lista) {
+            Map mapaNovo = new HashMap(dado.atributos);
+            Dado novo = new Dado(mapaNovo);
+            copy.add(novo);
+        }
+
         for (Dado dado : copy) {
             dado.atributos.keySet().remove(atributo);
         }

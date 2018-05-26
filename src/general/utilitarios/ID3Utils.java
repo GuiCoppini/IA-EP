@@ -2,6 +2,8 @@ package general.utilitarios;
 
 import general.Dado;
 import general.FrequenciaValorAtributo;
+import general.arvore.Branch;
+import general.arvore.Node;
 
 import java.util.*;
 
@@ -12,6 +14,29 @@ public class ID3Utils {
 //    public static String[] nomeAtributos = BaseDeConhecimento.getAtributos();
 
     //List<Map<String, Integer>> mapaDeFrequencia = new ArrayList<Map<String, Integer>>(); // Lista de HashMap
+
+    public static double testaAcuracia(List<Dado> conjunto, Node raiz) {
+        double numeroAcertos = 0;
+        for(Dado dado : conjunto) {
+            String respostaEsperada = dado.getAttr(NOME_CLASSE);
+            if(respondeDado(dado, raiz).equals(respostaEsperada)) {
+                numeroAcertos++;
+            }
+        }
+        return numeroAcertos/(double)conjunto.size();
+    }
+
+    private static String respondeDado(Dado novo, Node raiz) {
+        Node atual = raiz;
+        while(!atual.ehFolha) {
+            for(Branch aresta : atual.arestas) {
+                if(aresta.valorCondicao.equals(novo.getAttr(atual.nomeAtributo))) {
+                    atual = aresta.filho;
+                }
+            }
+        }
+        return atual.nomeAtributo;
+    }
 
     public static String maiorGanhoDeInformacao(String classe, List<HashMap<String, FrequenciaValorAtributo>> frequencias, int numeroDeClasses, List<Dado> conjunto) {
         //retorna qual nome do melhor atributo
