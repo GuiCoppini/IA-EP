@@ -1,5 +1,7 @@
 package general.utilitarios;
 
+import general.Dado;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,13 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import general.Dado;
-
 public class BaseDeConhecimento {
 
-    private static String[] nomeAtributos;
+    private static List<String> nomeAtributos;
 
-    public static final String NOME_CLASSE = nomeAtributos[nomeAtributos.length - 1];
+    public static String NOME_CLASSE;
 
 
     // mantem na lista final todos os Dados cujo dado.atributos.key tenha o valor value
@@ -33,17 +33,18 @@ public class BaseDeConhecimento {
     }
 
     // devolve uma lista com todos os dados SEM o atributo key
-    public static List<Dado> removeAttribute(List<Dado> lista, String atributo) {
+    public static List<Dado> removeAttribute(List<Dado> lista, String atributo, List<String> nomeAtributos) {
         List<Dado> copy = new ArrayList<>(lista);
         for(Dado dado : copy) {
             dado.atributos.keySet().remove(atributo);
         }
 
+        nomeAtributos.remove(atributo);
         return copy;
     }
 
     public static List<Dado> parseCSV() {
-        String csvFile = "adult_discretizado_v1.csv";
+        String csvFile = "PlayTennis.csv";
         BufferedReader br = null;
         String line;
         String splitBy = ";";
@@ -56,15 +57,11 @@ public class BaseDeConhecimento {
             while ((line = br.readLine()) != null) {
                 String[] linha = line.split(splitBy);
                 if (colunas != null) {
-                    //  System.out.println("LINHA " + (count + 1));
-//		            System.out.println("LINE LENGTH "+ linha.length);
                     count++;
                     Map<String, String> rexi = new HashMap<>();
                     for (int i = 0; i < colunas.length; i++) rexi.put(colunas[i], linha[i]);
                     lista.add(count, rexi);
                 } else {
-                    for (int i = 0; i < linha.length; i++) System.out.println(linha[i]);
-                    //   System.out.println("END COLUNAS");
                     colunas = linha;
                 }
             }
@@ -83,9 +80,6 @@ public class BaseDeConhecimento {
             }
         }
 
-
-        for (String coluna : colunas) System.out.print(coluna + " ");
-        System.out.println();
         List<Dado> base = new ArrayList<>(lista.size());
         for (int i = 0; i < lista.size(); i++) {
             base.add(new Dado(lista.get(i)));
@@ -95,16 +89,15 @@ public class BaseDeConhecimento {
     }
 
     private static void setAtributos(String[] colunas) {
-        nomeAtributos = new String[colunas.length];
-        int i = 0;
+        nomeAtributos = new ArrayList<>();
         for (String s : colunas) {
-            nomeAtributos[i] = s;
-            i++;
+            nomeAtributos.add(s);
         }
+        NOME_CLASSE = nomeAtributos.get(nomeAtributos.size() - 1);
     }
 
 
-    public static String[] getAtributos() {
+    public static List<String> getAtributos() {
         return nomeAtributos;
     }
 

@@ -1,18 +1,18 @@
 package general.arvore;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
 import general.Dado;
 
-import static general.utilitarios.BaseDeConhecimento.NOME_CLASSE;
-import static general.utilitarios.BaseDeConhecimento.filter;
-import static general.utilitarios.BaseDeConhecimento.removeAttribute;
+import java.util.*;
+
+import static general.utilitarios.BaseDeConhecimento.*;
 import static general.utilitarios.ID3Utils.*;
 
 public class DecisionTree {
+
+    public static void main(String[] args) {
+        DecisionTree decisionTree = new DecisionTree();
+        decisionTree.criaArvore(parseCSV());
+    }
 
     public Node criaArvore(List<Dado> conjunto) {
         Node raiz = criaNode(conjunto);
@@ -47,15 +47,18 @@ public class DecisionTree {
     private Node criaNode(List<Dado> conjunto) {
         Node raiz =  new Node();
         String nomeClasse = NOME_CLASSE;
+        Set<String> atributos = new HashSet<>(conjunto.get(0).atributos.keySet());
+        raiz.nomeAtributos.addAll(atributos);
 
         raiz.nomeAtributo = maiorGanhoDeInformacao(
                 nomeClasse,
-                inicializaFreq(conjunto),
+                inicializaFreq(conjunto, raiz.nomeAtributos),
                 analisaFrequencias(conjunto, nomeClasse).size(),
                 conjunto);
 
         if (conjunto.get(0).atributos.size() <= 1 || entropiaConjunto(conjunto) == 0) {
             raiz.ehFolha = true;
+            System.out.println(raiz.nomeAtributo);
         }
 
         return raiz;
@@ -63,6 +66,6 @@ public class DecisionTree {
 
     private List<Dado> recortaConjunto(List<Dado> conjuntoAntigo, Branch aresta) {
         List<Dado> conjuntoComValorCondicao = filter(conjuntoAntigo, aresta.pai.nomeAtributo, aresta.valorCondicao);
-        return removeAttribute(conjuntoComValorCondicao, aresta.pai.nomeAtributo);
+        return removeAttribute(conjuntoComValorCondicao, aresta.pai.nomeAtributo, aresta.pai.nomeAtributos);
     }
 }
