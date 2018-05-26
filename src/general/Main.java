@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         List<Dado> todosOsDados = new ArrayList<>();
         KFoldCrossValidation.roda(10, BaseDeConhecimento.parseCSV());
+
     }
 
 }

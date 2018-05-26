@@ -1,35 +1,38 @@
 package general.arvore;
 
 import general.Dado;
+import general.utilitarios.ID3Utils;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static general.utilitarios.BaseDeConhecimento.*;
 import static general.utilitarios.ID3Utils.*;
 
 public class DecisionTree {
+
+    public static void main(String[] args) {
+        DecisionTree decisionTree = new DecisionTree();
+        List<Dado> conjunto = parseCSV();
+        Node raiz = decisionTree.criaArvore(conjunto);
+        System.out.println(ID3Utils.testaAcuracia(conjunto, raiz));
+        System.out.println();
+    }
+
     public Node criaArvore(List<Dado> conjunto) {
         Node raiz = criaNode(conjunto);
-
+        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
         if (!raiz.ehFolha) {
+            System.out.println("Criando arestas pro node: " + raiz.nomeAtributo);
             criaArestasNoNode(raiz, conjunto);
         } else {
             //eh folha
+            System.out.println("Achou uma folha!");
             raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
 //            System.out.println(raiz.nomeAtributo);
         }
         return raiz;
-    }
-
-    private String classeDeMaiorFrequencia(List<Dado> conjunto) {
-        HashMap<String, Integer> mapFrequencias = analisaFrequencias(conjunto, NOME_CLASSE);
-        double max = Collections.max(mapFrequencias.values());
-        Set<String> chaves = mapFrequencias.keySet();
-        for (String chave : chaves) {
-            if (mapFrequencias.get(chave) == max)
-                return chave;
-        }
-        throw new RuntimeException("Essa arvore nao tem swag bro");
     }
 
     private void criaArestasNoNode(Node raiz, List<Dado> conjunto) {
