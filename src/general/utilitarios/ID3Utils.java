@@ -208,7 +208,7 @@ public class ID3Utils {
     }
 
     public static HashMap<String, Integer> analisaFrequencias(List<Dado> conjunto, String nomeAtributo) {
-        HashMap<String, Integer> frequencia = new HashMap<String, Integer>();
+        HashMap<String, Integer> frequencia = new HashMap<>();
         // guardar o numero de aparicoes de cada valor.
         for (int i = 0; i < conjunto.size(); i++) {
             Map<String, String> att = conjunto.get(i).getAtributos();

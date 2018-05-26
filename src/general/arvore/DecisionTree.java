@@ -55,11 +55,13 @@ public class DecisionTree {
         Set<String> atributos = new HashSet<>(conjunto.get(0).atributos.keySet());
         raiz.nomeAtributos.addAll(atributos);
 
-        raiz.nomeAtributo = maiorGanhoDeInformacao(
-                nomeClasse,
-                inicializaFreq(conjunto, raiz.nomeAtributos),
-                analisaFrequencias(conjunto, nomeClasse).size(),
-                conjunto);
+        if(atributos.size() > 1) {
+            raiz.nomeAtributo = maiorGanhoDeInformacao(
+                    nomeClasse,
+                    inicializaFreq(conjunto, raiz.nomeAtributos),
+                    analisaFrequencias(conjunto, nomeClasse).size(),
+                    conjunto);
+        }
 
         if (conjunto.get(0).atributos.size() <= 1 || entropiaConjunto(conjunto) == 0) {
             raiz.ehFolha = true;
