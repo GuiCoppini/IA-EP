@@ -11,14 +11,19 @@ public class DecisionTree {
 
     public static void main(String[] args) {
         DecisionTree decisionTree = new DecisionTree();
-        decisionTree.criaArvore(parseCSV());
+        Node raiz = decisionTree.criaArvore(parseCSV());
+        System.out.println();
     }
 
     public Node criaArvore(List<Dado> conjunto) {
         Node raiz = criaNode(conjunto);
 
-        if(!raiz.ehFolha) {
+        if (!raiz.ehFolha) {
             criaArestasNoNode(raiz, conjunto);
+        } else {
+            //eh folha
+            raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
+            System.out.println(raiz.nomeAtributo);
         }
         return raiz;
     }
@@ -37,7 +42,7 @@ public class DecisionTree {
     private void criaArestasNoNode(Node raiz, List<Dado> conjunto) {
         Set<String> valores = analisaFrequencias(conjunto, raiz.nomeAtributo).keySet();
 
-        for(String valor : valores) {
+        for (String valor : valores) {
             Branch aresta = new Branch(conjunto, valor, raiz);
             raiz.arestas.add(aresta);
             aresta.filho = criaArvore(recortaConjunto(conjunto, aresta));
@@ -45,7 +50,7 @@ public class DecisionTree {
     }
 
     private Node criaNode(List<Dado> conjunto) {
-        Node raiz =  new Node();
+        Node raiz = new Node();
         String nomeClasse = NOME_CLASSE;
         Set<String> atributos = new HashSet<>(conjunto.get(0).atributos.keySet());
         raiz.nomeAtributos.addAll(atributos);
@@ -58,7 +63,7 @@ public class DecisionTree {
 
         if (conjunto.get(0).atributos.size() <= 1 || entropiaConjunto(conjunto) == 0) {
             raiz.ehFolha = true;
-            System.out.println(raiz.nomeAtributo);
+            //System.out.println(raiz.nomeAtributo);
         }
 
         return raiz;

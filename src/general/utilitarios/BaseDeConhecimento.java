@@ -35,7 +35,7 @@ public class BaseDeConhecimento {
     // devolve uma lista com todos os dados SEM o atributo key
     public static List<Dado> removeAttribute(List<Dado> lista, String atributo, List<String> nomeAtributos) {
         List<Dado> copy = new ArrayList<>(lista);
-        for(Dado dado : copy) {
+        for (Dado dado : copy) {
             dado.atributos.keySet().remove(atributo);
         }
 
@@ -44,7 +44,7 @@ public class BaseDeConhecimento {
     }
 
     public static List<Dado> parseCSV() {
-        String csvFile = "PlayTennis.csv";
+        String csvFile = "adult_discretizado_v1.csv";
         BufferedReader br = null;
         String line;
         String splitBy = ";";
