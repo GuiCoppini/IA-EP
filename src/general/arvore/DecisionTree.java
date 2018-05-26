@@ -22,15 +22,14 @@ public class DecisionTree {
 
     public Node criaArvore(List<Dado> conjunto) {
         Node raiz = criaNode(conjunto);
-        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
+        raiz.arestaPai = null;
+//        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
         if (!raiz.ehFolha) {
-            System.out.println("Criando arestas pro node: " + raiz.nomeAtributo);
+//            System.out.println("Criando arestas pro node: " + raiz.nomeAtributo);
             criaArestasNoNode(raiz, conjunto);
         } else {
             //eh folha
-            System.out.println("Achou uma folha!");
             raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
-//            System.out.println(raiz.nomeAtributo);
         }
         return raiz;
     }
@@ -42,6 +41,7 @@ public class DecisionTree {
             Branch aresta = new Branch(conjunto, valor, raiz);
             raiz.arestas.add(aresta);
             aresta.filho = criaArvore(recortaConjunto(conjunto, aresta));
+            aresta.filho.arestaPai = aresta;
         }
     }
 

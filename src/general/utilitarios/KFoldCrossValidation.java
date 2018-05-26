@@ -21,11 +21,14 @@ public class KFoldCrossValidation {
 			List<Dado> conjuntoDeTeste = new ArrayList<>();
 			List<Dado> conjuntoDeTreinamento = new ArrayList<>();
 			for (int j = 0; j < foldsSeparados.size(); j++) {
-				if (i == j)
+				if (i == j) {
+					System.out.println("Montando conjunto de teste #" + i);
 					conjuntoDeTeste.addAll(new ArrayList<>(foldsSeparados.get(i))); // new pra evitar alterar valores
-				else
+				} else {
+					System.out.println("Montando conjunto de treinamento #" + j);
 					conjuntoDeTreinamento.addAll(new ArrayList<>(foldsSeparados.get(j))); // pois sao passados por
-																							// ponteiro
+					// ponteiro
+				}
 			}
 			DecisionTree decisionTree = new DecisionTree();
 			Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);

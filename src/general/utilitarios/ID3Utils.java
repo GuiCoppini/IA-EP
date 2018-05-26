@@ -24,21 +24,14 @@ public class ID3Utils {
 
     private static String respondeDado(Dado novo, Node raiz) {
         Node atual = raiz;
-        Node anterior = raiz;
         while(!atual.ehFolha) {
             for(Branch aresta : atual.arestas) {
                 if(aresta.valorCondicao.equals(novo.getAttr(atual.nomeAtributo))) {
-                    anterior = aresta.pai;
                     atual = aresta.filho;
                 }
             }
-            if(atual.equals(raiz)) { //nao achou valor, retorna o mais comum
-                List<Dado> conjuntoDoNode;
-                for(Branch aresta : anterior.arestas) {
-                    if(aresta.filho == atual)
-                        return classeDeMaiorFrequencia(aresta.conjuntoRecortado);
-                }
-
+            if(atual.arestaPai != null) {
+                return classeDeMaiorFrequencia(atual.arestaPai.conjuntoRecortado);
             }
         }
         return atual.nomeAtributo;
