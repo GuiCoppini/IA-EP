@@ -51,7 +51,7 @@ public class DecisionTree {
         Set<String> atributos = new HashSet<>(conjunto.get(0).atributos.keySet());
         raiz.nomeAtributos.addAll(atributos);
 
-        if(atributos.size() > 1) {
+        if (atributos.size() > 1) {
             raiz.nomeAtributo = maiorGanhoDeInformacao(
                     nomeClasse,
                     inicializaFreq(conjunto, raiz.nomeAtributos),

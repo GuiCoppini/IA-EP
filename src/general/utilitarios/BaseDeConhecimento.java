@@ -36,7 +36,7 @@ public class BaseDeConhecimento {
     public static List<Dado> removeAttribute(List<Dado> lista, String atributo, List<String> nomeAtributos) {
         List<Dado> copy = new ArrayList<>();
 
-        for(Dado dado : lista) {
+        for (Dado dado : lista) {
             Map mapaNovo = new HashMap(dado.atributos);
             Dado novo = new Dado(mapaNovo);
             copy.add(novo);
@@ -100,6 +100,7 @@ public class BaseDeConhecimento {
         for (String s : colunas) {
             nomeAtributos.add(s);
         }
+        System.out.println("Terminou Parse");
         NOME_CLASSE = nomeAtributos.get(nomeAtributos.size() - 1);
     }
 
