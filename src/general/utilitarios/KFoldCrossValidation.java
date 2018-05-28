@@ -39,15 +39,15 @@ public class KFoldCrossValidation {
             acuracias[i] = acuraciaTeste;
             System.out.println("Acuracia da arvore: " + acuracias[i]);
         }
-        double[] erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size());
-        System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro[0] + " e " + erroVerdadeiro[1]);
+        List<Double> erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size());
+        System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro.get(0) + " e " + erroVerdadeiro.get(1));
     }
 
-    private static double[] taxaErroVerdadeiro(double[] acuracias, int totalDeRegistros) {
+    private static List<Double> taxaErroVerdadeiro(double[] acuracias, int totalDeRegistros) {
         double erroModelo = calculaErroModelo(acuracias, totalDeRegistros);
-        double[] confianca95 = new double[2];
-        confianca95[0] = (erroMedio(acuracias, totalDeRegistros) - (1.96 * calculaErroModelo(acuracias, totalDeRegistros)));
-        confianca95[1] = (erroMedio(acuracias, totalDeRegistros) + (1.96 * calculaErroModelo(acuracias, totalDeRegistros)));
+        List<Double> confianca95 = new ArrayList<Double>();
+        confianca95.set(0, (erroMedio(acuracias, totalDeRegistros) - (1.96 * calculaErroModelo(acuracias, totalDeRegistros))));
+        confianca95.set(1, (erroMedio(acuracias, totalDeRegistros) + (1.96 * calculaErroModelo(acuracias, totalDeRegistros))));
         return confianca95;
     }
 
