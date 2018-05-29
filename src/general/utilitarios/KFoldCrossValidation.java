@@ -11,7 +11,7 @@ import java.util.List;
 public class KFoldCrossValidation {
 
     public static void roda(int k, List<Dado> todosOsDados) {
-        double[] acuracias = new double[k]; //Array para guardar a acuracia de cada rodada
+        List<Double> acuracias = new ArrayList<>();
         List<Dado> totalCopy = new ArrayList<>(todosOsDados); // nao mudar a lista original
         Collections.shuffle(totalCopy); // embaralha o conjunto
         // quebra tudo em k folds
@@ -36,33 +36,36 @@ public class KFoldCrossValidation {
             Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);
             System.out.println("Testando árvore criada com o conjunto de teste");
             double acuraciaTeste = ID3Utils.testaAcuracia(conjuntoDeTeste, raiz);
-            acuracias[i] = acuraciaTeste;
-            System.out.println("Acuracia da arvore: " + acuracias[i]);
+            acuracias.add(acuraciaTeste);
+            System.out.println("Acuracia da arvore: " + acuracias.get(i));
         }
-        double[] erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size());
-        System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro[0] + " e " + erroVerdadeiro[1]);
+        List<Double> erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size());
+        System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro.get(0) + " e " + erroVerdadeiro.get(1));
     }
 
-    private static double[] taxaErroVerdadeiro(double[] acuracias, int totalDeRegistros) {
+    private static List<Double> taxaErroVerdadeiro(List<Double> acuracias, int totalDeRegistros) {
         double erroModelo = calculaErroModelo(acuracias, totalDeRegistros);
-        double[] confianca95 = new double[2];
-        confianca95[0] = (erroMedio(acuracias, totalDeRegistros) - (1.96 * calculaErroModelo(acuracias, totalDeRegistros)));
-        confianca95[1] = (erroMedio(acuracias, totalDeRegistros) + (1.96 * calculaErroModelo(acuracias, totalDeRegistros)));
+        List<Double> confianca95 = new ArrayList<>();
+        double erroMedio = erroMedio(acuracias, totalDeRegistros);
+        confianca95.add(erroMedio - (1.96 * erroModelo));
+        confianca95.add(erroMedio + (1.96 * erroModelo));
         return confianca95;
     }
 
-    private static double calculaErroModelo(double[] acuracias, int totalDeRegistros) {
+    private static double calculaErroModelo(List<Double> acuracias, int totalDeRegistros) {
         double erroMedio = erroMedio(acuracias, totalDeRegistros);
         double erroTotal = Math.sqrt((erroMedio * (1 - erroMedio)) / (double) totalDeRegistros);
+        System.out.println("Erro Medio = " + erroMedio);
+        System.out.println("Erro total = " + erroTotal);
         return erroTotal;
     }
 
-    private static double erroMedio(double[] acuracias, int totalDeRegistros) {
+    private static double erroMedio(List<Double> acuracias, int totalDeRegistros) {
         double erroMedio = 0.0;
-        for (int i = 0; i < acuracias.length; i++) {
-            erroMedio += (1 - acuracias[i]);
-            erroMedio = erroMedio / acuracias.length; //media dos erros
+        for (int i = 0; i < acuracias.size(); i++) {
+            erroMedio += (1 - acuracias.get(i));
         }
+        erroMedio = erroMedio / acuracias.size(); //media dos erros
         return erroMedio;
     }
 
