@@ -23,4 +23,22 @@ public class Regra {
     public void remove(String atributo) {
         this.valores.remove(atributo);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder retorno = new StringBuilder();
+        int i = 1;
+        for(String atributo : valores.keySet()) {
+            retorno
+                    .append(atributo)
+                    .append("=")
+                    .append(valores.get(atributo));
+            if(i != valores.keySet().size()) {
+                retorno.append(" && ");
+            }
+            i++;
+
+        }
+        return retorno.toString();
+    }
 }

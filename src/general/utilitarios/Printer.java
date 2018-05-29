@@ -17,11 +17,24 @@ public class Printer {
     }
 
     public void printaRegras(Node raiz) {
-        printaRecursivo(raiz, new Regra());
+
+        // popula o regrasDeClasses
+        montaRegrasRecursivo(raiz, new Regra());
+
+        // imprime as regras
+        for(String classe : regrasDeClasses.keySet()) {
+            System.out.print("IF ");
+            for(Regra regra : regrasDeClasses.get(classe)) {
+                System.out.print("(" + regra + ") || ");
+            }
+            System.out.print("THEN [" + classe + "]");
+            System.out.println();
+        }
+
     }
 
 
-    private void printaRecursivo(Node raiz, Regra regraAtual) {
+    private void montaRegrasRecursivo(Node raiz, Regra regraAtual) {
         Node atual = raiz;
         if(atual.ehFolha) {
             regrasDeClasses.computeIfAbsent(atual.nomeAtributo, k -> new ArrayList<>());
@@ -35,7 +48,7 @@ public class Printer {
         for(Branch aresta : atual.arestas) {
             Regra regraNova = regraAtual.copy();
             regraNova.add(atual.nomeAtributo, aresta.valorCondicao);
-            printaRecursivo(aresta.filho, regraNova);
+            montaRegrasRecursivo(aresta.filho, regraNova);
         }
 
     }

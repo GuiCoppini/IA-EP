@@ -11,9 +11,4 @@ public class Node {
     public List<Branch> arestas = new ArrayList<>();
     public List<String> nomeAtributos = new ArrayList<>();
     public Branch arestaPai;
-
-    void criaFilho(List<Dado> conjunto) {
-        //ele vai ter que recortar o conjunto
-        //vai ter sua propria entropia
-    }
 }
