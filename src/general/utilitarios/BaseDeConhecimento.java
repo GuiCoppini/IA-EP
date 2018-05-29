@@ -51,7 +51,7 @@ public class BaseDeConhecimento {
     }
 
     public static List<Dado> parseCSV() {
-        String csvFile = "adult_discretizado_v1.csv";
+        String csvFile = "PlayTennis.csv";
         BufferedReader br = null;
         String line;
         String splitBy = ";";
