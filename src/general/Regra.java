@@ -19,4 +19,8 @@ public class Regra {
         retorno.valores = new HashMap<>(this.valores);
         return retorno;
     }
+
+    public void remove(String atributo) {
+        this.valores.remove(atributo);
+    }
 }

@@ -20,6 +20,7 @@ public class Printer {
         printaRecursivo(raiz, new Regra());
     }
 
+
     private void printaRecursivo(Node raiz, Regra regraAtual) {
         Node atual = raiz;
         if(atual.ehFolha) {
@@ -30,14 +31,12 @@ public class Printer {
             return;
         }
 
-        regraAtual = regraAtual.copy();
-        if(!atual.ehFolha) {
-            for(Branch aresta : atual.arestas) {
-                regraAtual.add(atual.nomeAtributo, aresta.valorCondicao);
-                printaRecursivo(aresta.filho, regraAtual);
-            }
-        }
-        // ta bugadao eh nois bro usa debug
-    }
 
+        for(Branch aresta : atual.arestas) {
+            Regra regraNova = regraAtual.copy();
+            regraNova.add(atual.nomeAtributo, aresta.valorCondicao);
+            printaRecursivo(aresta.filho, regraNova);
+        }
+
+    }
 }
