@@ -10,6 +10,7 @@ import java.util.List;
 
 public class KFoldCrossValidation {
 
+
     public static void roda(int k, List<Dado> todosOsDados) {
         List<Double> acuracias = new ArrayList<>();
         List<Dado> totalCopy = new ArrayList<>(todosOsDados); // nao mudar a lista original
