@@ -12,17 +12,21 @@ import static general.utilitarios.ID3Utils.*;
 
 public class DecisionTree {
 
-    public static void main(String[] args) {
-        DecisionTree decisionTree = new DecisionTree();
-        List<Dado> conjunto = parseCSV();
-        Node raiz = decisionTree.criaArvore(conjunto);
-        System.out.println(ID3Utils.testaAcuracia(conjunto, raiz));
-        System.out.println();
-    }
+    Node raizPrincipal = null;
+    int numeroDeNos = 0;
+    List<Dado> conjuntoTeste = null;
 
-    public Node criaArvore(List<Dado> conjunto) {
-        Node raiz = criaNode(conjunto);
-        raiz.arestaPai = null;
+//    public static void main(String[] args) {
+//        DecisionTree decisionTree = new DecisionTree();
+//        List<Dado> conjunto = parseCSV();
+//        Node raiz = decisionTree.criaArvore(conjunto, true);
+//        System.out.println(ID3Utils.testaAcuracia(conjunto, raiz));
+//        System.out.println();
+//    }
+
+    public Node criaArvore(List<Dado> conjunto, boolean principal, Branch aresta) {
+        Node raiz = criaNode(conjunto, principal, aresta);
+        //raiz.arestaPai = null;
 //        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
         if (!raiz.ehFolha) {
 //            System.out.println("Criando arestas pro node: " + raiz.nomeAtributo);
@@ -40,18 +44,29 @@ public class DecisionTree {
         for (String valor : valores) {
             Branch aresta = new Branch(conjunto, valor, raiz);
             raiz.arestas.add(aresta);
-            aresta.filho = criaArvore(recortaConjunto(conjunto, aresta));
+            aresta.filho = criaArvore(recortaConjunto(conjunto, aresta), false, aresta);
             aresta.filho.arestaPai = aresta;
         }
     }
 
-    private Node criaNode(List<Dado> conjunto) {
+    private Node criaNode(List<Dado> conjunto, boolean principal, Branch aresta) {
         Node raiz = new Node();
+        if (principal) {
+            raizPrincipal = raiz; //salva a raiz principal da arvore
+            conjuntoTeste = conjunto;
+        } else {
+            aresta.filho = raiz;
+            aresta.filho.arestaPai = aresta;
+        }
+        numeroDeNos++;
         String nomeClasse = NOME_CLASSE;
         Set<String> atributos = new HashSet<>(conjunto.get(0).atributos.keySet());
         raiz.nomeAtributos.addAll(atributos);
+        raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
 
-        if (atributos.size() > 1) {
+        if (conjunto.get(0).atributos.size() > 1 || entropiaConjunto(conjunto) > 0) {
+            System.out.println(testaAcuracia(conjuntoTeste, raizPrincipal));
+            raiz.ehFolha = false;
             raiz.nomeAtributo = maiorGanhoDeInformacao(
                     nomeClasse,
                     inicializaFreq(conjunto, raiz.nomeAtributos),

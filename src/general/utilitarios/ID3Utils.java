@@ -13,28 +13,44 @@ public class ID3Utils {
 
     public static double testaAcuracia(List<Dado> conjunto, Node raiz) {
         double numeroAcertos = 0;
-        for(Dado dado : conjunto) {
+        for (Dado dado : conjunto) {
             String respostaEsperada = dado.getAttr(NOME_CLASSE);
-            if(respondeDado(dado, raiz).equals(respostaEsperada)) {
+            if (respondeDado(dado, raiz, conjunto).equals(respostaEsperada)) {
                 numeroAcertos++;
             }
         }
-        return numeroAcertos/(double)conjunto.size();
+        return numeroAcertos / (double) conjunto.size();
     }
 
-    private static String respondeDado(Dado novo, Node raiz) {
+    private static String respondeDado(Dado novo, Node raiz, List<Dado> conjunto) {
         Node atual = raiz;
-        while(!atual.ehFolha) {
-            for(Branch aresta : atual.arestas) {
-                if(aresta.valorCondicao.equals(novo.getAttr(atual.nomeAtributo))) {
+        while (!atual.ehFolha) {
+            for (Branch aresta : atual.arestas) {
+                if (aresta.valorCondicao.equals(novo.getAttr(atual.nomeAtributo))) {
                     atual = aresta.filho;
                 }
             }
-            if(atual.arestaPai != null) {
+//            if (atual.arestaPai != null) {
+//                return classeDeMaiorFrequencia(atual.arestaPai.conjuntoRecortado);
+//            }
+            if (valorNaoPresenteNasArestas(atual, novo) && atual.arestaPai != null) {
                 return classeDeMaiorFrequencia(atual.arestaPai.conjuntoRecortado);
             }
+            if (atual == raiz) {
+                return classeDeMaiorFrequencia(conjunto);
+            }
+
         }
         return atual.nomeAtributo;
+    }
+
+    private static boolean valorNaoPresenteNasArestas(Node atual, Dado novo) {
+        for (Branch branch : atual.arestas) {
+            if (branch.valorCondicao.equals(novo.getAttr(atual.nomeAtributo))) {
+                return false;
+            }
+        }
+        return true; //valor nao presente nas arestas
     }
 
     public static String maiorGanhoDeInformacao(String classe, List<HashMap<String, FrequenciaValorAtributo>> frequencias, int numeroDeClasses, List<Dado> conjunto) {

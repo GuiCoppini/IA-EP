@@ -7,18 +7,19 @@ import java.util.List;
 
 public class Node {
     public String nomeAtributo;
-    public boolean ehFolha = false;
+    public boolean ehFolha = true;
     public List<Branch> arestas = new ArrayList<>();
     public List<String> nomeAtributos = new ArrayList<>();
     public Branch arestaPai;
 
     public void PrintaMeusAtributos() {
-        System.out.println("Atributos do nó "+nomeAtributo+" -------------------------");
-        for(String attr : nomeAtributos) System.out.print(attr+" ");
+        System.out.println("Atributos do nó " + nomeAtributo + " -------------------------");
+        for (String attr : nomeAtributos) System.out.print(attr + " ");
         System.out.println();
         System.out.println("-----------------------------------------------");
     }
-    public Node klone(){
+
+    public Node klone() {
         Node novo = new Node();
         novo.nomeAtributo = this.nomeAtributo;
         novo.ehFolha = this.ehFolha;
