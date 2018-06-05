@@ -24,13 +24,18 @@ public class DecisionTree {
 //        System.out.println();
 //    }
 
-    public Node criaArvore(List<Dado> conjunto, boolean principal, Branch aresta) {
-        Node raiz = criaNode(conjunto, principal, aresta);
+    public Node cria(List<Dado> conjunto, List<Dado> conjuntoTeste, boolean acuraciaEmCadaNo) {
+        return criaArvore(conjunto, true, null, conjuntoTeste, acuraciaEmCadaNo);
+    }
+
+    public Node criaArvore(List<Dado> conjunto, boolean principal, Branch aresta, List<Dado> conjuntoTeste, boolean acuraciaEmCadaNo) {
+        this.conjuntoTeste = conjuntoTeste;
+        Node raiz = criaNode(conjunto, principal, aresta, acuraciaEmCadaNo);
         //raiz.arestaPai = null;
 //        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
         if (!raiz.ehFolha) {
 //            System.out.println("Criando arestas pro node: " + raiz.nomeAtributo);
-            criaArestasNoNode(raiz, conjunto);
+            criaArestasNoNode(raiz, conjunto, acuraciaEmCadaNo);
         } else {
             //eh folha
             raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
@@ -38,22 +43,21 @@ public class DecisionTree {
         return raiz;
     }
 
-    private void criaArestasNoNode(Node raiz, List<Dado> conjunto) {
+    private void criaArestasNoNode(Node raiz, List<Dado> conjunto, boolean acuraciaEmCadaNo) {
         Set<String> valores = analisaFrequencias(conjunto, raiz.nomeAtributo).keySet();
 
         for (String valor : valores) {
             Branch aresta = new Branch(conjunto, valor, raiz);
             raiz.arestas.add(aresta);
-            aresta.filho = criaArvore(recortaConjunto(conjunto, aresta), false, aresta);
+            aresta.filho = criaArvore(recortaConjunto(conjunto, aresta), false, aresta, conjuntoTeste, acuraciaEmCadaNo);
             aresta.filho.arestaPai = aresta;
         }
     }
 
-    private Node criaNode(List<Dado> conjunto, boolean principal, Branch aresta) {
+    private Node criaNode(List<Dado> conjunto, boolean principal, Branch aresta, boolean acuraciaEmCadaNo) {
         Node raiz = new Node();
         if (principal) {
             raizPrincipal = raiz; //salva a raiz principal da arvore
-            conjuntoTeste = conjunto;
         } else {
             aresta.filho = raiz;
             aresta.filho.arestaPai = aresta;
@@ -65,7 +69,9 @@ public class DecisionTree {
         raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
 
         if (conjunto.get(0).atributos.size() > 1 || entropiaConjunto(conjunto) > 0) {
-            System.out.println(testaAcuracia(conjuntoTeste, raizPrincipal));
+            if (acuraciaEmCadaNo) { //soh calcula acuracia por nó caso queira.
+                System.out.println("Acuracia com " + numeroDeNos + " Nós: " + testaAcuracia(conjuntoTeste, raizPrincipal));
+            }
             raiz.ehFolha = false;
             raiz.nomeAtributo = maiorGanhoDeInformacao(
                     nomeClasse,
