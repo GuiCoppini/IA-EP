@@ -13,7 +13,6 @@ public class DecisionTree {
 
     Node raizPrincipal = null;
     int numeroDeNos = 0;
-    List<Dado> conjuntoTeste = null;
 
 //    public static void main(String[] args) {
 //        DecisionTree decisionTree = new DecisionTree();
@@ -23,12 +22,11 @@ public class DecisionTree {
 //        System.out.println();
 //    }
 
-    public Node cria(List<Dado> conjunto, List<Dado> conjuntoTeste) {
-        return criaSubArvore(conjunto, true, null, conjuntoTeste);
+    public Node criaArvore(List<Dado> conjunto) {
+        return criaSubArvore(conjunto, true, null);
     }
 
-    public Node criaSubArvore(List<Dado> conjunto, boolean principal, Branch aresta, List<Dado> conjuntoTeste) {
-        this.conjuntoTeste = conjuntoTeste;
+    public Node criaSubArvore(List<Dado> conjunto, boolean principal, Branch aresta) {
         Node raiz = criaNode(conjunto, principal, aresta);
         //raiz.arestaPai = null;
 //        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
@@ -48,7 +46,7 @@ public class DecisionTree {
         for (String valor : valores) {
             Branch aresta = new Branch(conjunto, valor, raiz);
             raiz.arestas.add(aresta);
-            aresta.filho = criaSubArvore(recortaConjunto(conjunto, aresta), false, aresta, conjuntoTeste);
+            aresta.filho = criaSubArvore(recortaConjunto(conjunto, aresta), false, aresta);
             aresta.filho.arestaPai = aresta;
         }
     }
@@ -83,7 +81,7 @@ public class DecisionTree {
             raiz.ehFolha = true;
             //System.out.println(raiz.nomeAtributo);
         }
-       // System.out.println(numeroDeNos);
+        // System.out.println(numeroDeNos);
         return raiz;
 
     }

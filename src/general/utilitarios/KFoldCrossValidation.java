@@ -34,7 +34,7 @@ public class KFoldCrossValidation {
             }
             DecisionTree decisionTree = new DecisionTree();
             System.out.println("Criando Arvore de Decisão utilizando ID3 com cálculo por acurácia");
-            Node raiz = decisionTree.cria(conjuntoDeTreinamento, conjuntoDeTeste);
+            Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);
             System.out.println("Testando árvore criada com o conjunto de teste");
             double acuraciaTeste = ID3Utils.testaAcuracia(conjuntoDeTeste, raiz);
             acuracias.add(acuraciaTeste);
