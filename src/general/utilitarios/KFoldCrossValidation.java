@@ -39,6 +39,9 @@ public class KFoldCrossValidation {
             double acuraciaTeste = ID3Utils.testaAcuracia(conjuntoDeTeste, raiz);
             acuracias.add(acuraciaTeste);
             System.out.println("Acuracia da arvore: " + acuracias.get(i));
+            Printer printer = new Printer();
+            System.out.println("Printando as regras da árvore");
+            printer.printaRegras(raiz);
         }
         List<Double> erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size());
         System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro.get(0) + " e " + erroVerdadeiro.get(1));
