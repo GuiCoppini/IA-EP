@@ -68,7 +68,7 @@ public class DecisionTree {
         raiz.nomeAtributos.addAll(atributos);
         raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
 
-        if (conjunto.get(0).atributos.size() > 1 || entropiaConjunto(conjunto) > 0) {
+        if (conjunto.get(0).atributos.size() > 1) {
             if (acuraciaEmCadaNo) { //soh calcula acuracia por nó caso queira.
                 System.out.println("Acuracia com " + numeroDeNos + " Nós: " + testaAcuracia(conjuntoTeste, raizPrincipal));
             }
