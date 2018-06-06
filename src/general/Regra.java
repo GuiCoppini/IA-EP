@@ -28,12 +28,12 @@ public class Regra {
     public String toString() {
         StringBuilder retorno = new StringBuilder();
         int i = 1;
-        for(String atributo : valores.keySet()) {
+        for (String atributo : valores.keySet()) {
             retorno
                     .append(atributo)
                     .append("=")
                     .append(valores.get(atributo));
-            if(i != valores.keySet().size()) {
+            if (i != valores.keySet().size()) {
                 retorno.append(" && ");
             }
             i++;

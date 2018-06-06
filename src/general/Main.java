@@ -15,9 +15,9 @@ public class Main {
         kFold.roda(10, BaseDeConhecimento.parseCSV());
         //DecisionTree decisionTree = new DecisionTree();
         // Printer p = new Printer();
-        //p.printaRegras(decisionTree.criaArvore(BaseDeConhecimento.parseCSV()));
+        //p.printaRegras(decisionTree.criaSubArvore(BaseDeConhecimento.parseCSV()));
         // List<Dado> dados = BaseDeConhecimento.parseCSV();
-        // Node raiz = decisionTree.criaArvore(dados, true, null);
+        // Node raiz = decisionTree.criaSubArvore(dados, true, null);
         //p.printaArvore(raiz, raiz ,null , true); // falta o conjunto de validacao
         System.out.println();
     }
