@@ -2,6 +2,7 @@ package general.menu;
 
 import general.arvore.DecisionTree;
 import general.arvore.Node;
+import general.utilitarios.KFoldCrossValidation;
 import general.utilitarios.Printer;
 
 import java.util.Scanner;
@@ -37,6 +38,16 @@ public class Menu {
             case 'd':
                 nomeConjunto = "PlayTennis.csv";
                 break;
+        }
+
+        System.out.println("Deseja rodar o K-Fold Cross Validation para o conjunto "+nomeConjunto+"? [y/n]");
+        char kfold = sc.nextLine().charAt(0);
+        if(kfold == 'y') {
+            System.out.println("Quantos folds voce quer?");
+            int k = sc.nextInt();
+            System.out.println("Rodando um "+k+"-Fold Cross Validation para " + nomeConjunto);
+            KFoldCrossValidation.roda(k, parseCSV(nomeConjunto));
+            return;
         }
 
         System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto "+nomeConjunto+"!");
