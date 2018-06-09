@@ -60,7 +60,7 @@ public class Menu {
 //        if(acuraciaACadaNo) {
         System.out.println("Montando a arvore para o conjunto "+ nomeConjunto +".");
 //        }
-        Node raiz = decisionTree.criaArvore(parseCSV(nomeConjunto));
+        Node raiz = decisionTree.criaArvoreComAcuracia(parseCSV(nomeConjunto));
 
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
