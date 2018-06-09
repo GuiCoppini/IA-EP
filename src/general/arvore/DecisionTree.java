@@ -22,13 +22,13 @@ public class DecisionTree {
 //        System.out.println();
 //    }
 
-    public Node criaArvore(List<Dado> conjunto) {
+    public Node criaArvoreComAcuracia(List<Dado> conjunto) {
         return criaSubArvore(conjunto, true, null, false);
     }
 
-    public Node criaArvore(List<Dado> conjunto, boolean acuraciaACadaNo, List<Dado> conjuntoDeTeste) {
+    public Node criaArvoreComAcuracia(List<Dado> conjunto, List<Dado> conjuntoDeTeste) {
         this.conjuntoTeste = conjuntoDeTeste;
-        return criaSubArvore(conjunto, true, null, acuraciaACadaNo);
+        return criaSubArvore(conjunto, true, null, true);
     }
 
     public Node criaSubArvore(List<Dado> conjunto, boolean principal, Branch aresta, boolean acuraciaACadaNo) {
