@@ -1,12 +1,12 @@
 package general;
 
 public class FrequenciaValorAtributo {
-    public String valor = "";
-    public String nomeAtributo = "";
+    public String valor = ""; //SOL
+    public String nomeAtributo = ""; //Temperatura
 
-    public int numeroDeOcorrencias = 0;
-    public int[] distribuicaoPorClasse;
-    public double entropia = 0;
+    public int numeroDeOcorrencias = 0; //5
+    public int[] distribuicaoPorClasse; // 3 Sim | 2 Nao
+    public double entropia = 0; //0.60
 
 
     public FrequenciaValorAtributo(String valor, String att, int numeroDeOcorrencias) {

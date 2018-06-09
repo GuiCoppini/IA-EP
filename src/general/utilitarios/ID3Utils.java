@@ -64,7 +64,6 @@ public class ID3Utils {
                 return chave;
         }
         throw new RuntimeException("Problema no maiorGanhoDeInformação");
-
     }
 
     public static String classeDeMaiorFrequencia(List<Dado> conjunto) {

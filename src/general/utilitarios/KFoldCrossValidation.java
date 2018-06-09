@@ -34,14 +34,14 @@ public class KFoldCrossValidation {
             }
             DecisionTree decisionTree = new DecisionTree();
             System.out.println("Criando Arvore de Decisão utilizando ID3 com cálculo por acurácia");
-            Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento, false, conjuntoDeTeste);
+            Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento, true, conjuntoDeTeste);
             System.out.println("Testando árvore criada com o conjunto de teste");
             double acuraciaTeste = ID3Utils.testaAcuracia(conjuntoDeTeste, raiz);
             acuracias.add(acuraciaTeste);
             System.out.println("Acuracia da arvore: " + acuracias.get(i));
-            Printer printer = new Printer();
-            System.out.println("Printando as regras da árvore");
-            printer.printaRegras(raiz);
+//            Printer printer = new Printer();
+//            System.out.println("Printando as regras da árvore");
+//            printer.printaRegras(raiz);
         }
         List<Double> erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size());
         System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro.get(0) + " e " + erroVerdadeiro.get(1));
