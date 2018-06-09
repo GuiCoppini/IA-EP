@@ -22,6 +22,10 @@ public class DecisionTree {
 //        System.out.println();
 //    }
 
+    public Node criaArvore(List<Dado> conjunto) {
+        return criaSubArvore(conjunto, true, null, false);
+    }
+
     public Node criaArvore(List<Dado> conjunto, boolean acuraciaACadaNo, List<Dado> conjuntoDeTeste) {
         this.conjuntoTeste = conjuntoDeTeste;
         return criaSubArvore(conjunto, true, null, acuraciaACadaNo);

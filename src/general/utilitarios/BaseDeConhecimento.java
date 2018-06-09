@@ -50,8 +50,8 @@ public class BaseDeConhecimento {
         return copy;
     }
 
-    public static List<Dado> parseCSV() {
-        String csvFile = "adult_discretizado_v1.csv";//"adult_discretizado_menor.csv";////"adult_discretizado_menor.csv";
+    public static List<Dado> parseCSV(String csvFileName) {
+        String csvFile = csvFileName;//"adult_discretizado_menor.csv";////"adult_discretizado_menor.csv";
         BufferedReader br = null;
         String line;
         String splitBy = ";";

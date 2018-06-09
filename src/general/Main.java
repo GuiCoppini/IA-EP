@@ -1,18 +1,12 @@
 package general;
 
-import general.arvore.Branch;
-import general.arvore.DecisionTree;
-import general.arvore.Node;
 import general.utilitarios.BaseDeConhecimento;
 import general.utilitarios.KFoldCrossValidation;
-import general.utilitarios.Printer;
-
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         KFoldCrossValidation kFold = new KFoldCrossValidation();
-        kFold.roda(10, BaseDeConhecimento.parseCSV());
+        kFold.roda(10, BaseDeConhecimento.parseCSV("adult_discretizado_menor.csv"));
         //DecisionTree decisionTree = new DecisionTree();
         // Printer p = new Printer();
         //p.printaRegras(decisionTree.criaSubArvore(BaseDeConhecimento.parseCSV()));
