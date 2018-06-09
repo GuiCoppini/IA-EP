@@ -13,7 +13,7 @@ public class DecisionTree {
 
     Node raizPrincipal = null;
     int numeroDeNos = 0;
-
+    List<Dado> conjuntoTeste = null;
 //    public static void main(String[] args) {
 //        DecisionTree decisionTree = new DecisionTree();
 //        List<Dado> conjunto = parseCSV();
@@ -22,17 +22,18 @@ public class DecisionTree {
 //        System.out.println();
 //    }
 
-    public Node criaArvore(List<Dado> conjunto) {
-        return criaSubArvore(conjunto, true, null);
+    public Node criaArvore(List<Dado> conjunto, boolean acuraciaACadaNo, List<Dado> conjuntoDeTeste) {
+        this.conjuntoTeste = conjuntoDeTeste;
+        return criaSubArvore(conjunto, true, null, acuraciaACadaNo);
     }
 
-    public Node criaSubArvore(List<Dado> conjunto, boolean principal, Branch aresta) {
-        Node raiz = criaNode(conjunto, principal, aresta);
+    public Node criaSubArvore(List<Dado> conjunto, boolean principal, Branch aresta, boolean acuraciaACadaNo) {
+        Node raiz = criaNode(conjunto, principal, aresta, acuraciaACadaNo);
         //raiz.arestaPai = null;
 //        System.out.println("Ta criando arvore com cunjunto de tamanho: " + conjunto.size());
         if (!raiz.ehFolha) {
 //            System.out.println("Criando arestas pro node: " + raiz.nomeAtributo);
-            criaArestasNoNode(raiz, conjunto);
+            criaArestasNoNode(raiz, conjunto, acuraciaACadaNo);
         } else {
             //eh folha
             raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
@@ -40,18 +41,18 @@ public class DecisionTree {
         return raiz;
     }
 
-    private void criaArestasNoNode(Node raiz, List<Dado> conjunto) {
+    private void criaArestasNoNode(Node raiz, List<Dado> conjunto, boolean acuraciaACadaNo) {
         Set<String> valores = analisaFrequencias(conjunto, raiz.nomeAtributo).keySet();
 
         for (String valor : valores) {
             Branch aresta = new Branch(conjunto, valor, raiz);
             raiz.arestas.add(aresta);
-            aresta.filho = criaSubArvore(recortaConjunto(conjunto, aresta), false, aresta);
+            aresta.filho = criaSubArvore(recortaConjunto(conjunto, aresta), false, aresta, acuraciaACadaNo);
             aresta.filho.arestaPai = aresta;
         }
     }
 
-    private Node criaNode(List<Dado> conjunto, boolean principal, Branch aresta) {
+    private Node criaNode(List<Dado> conjunto, boolean principal, Branch aresta, boolean acuraciaACadaNo) {
         Node raiz = new Node();
         if (principal) {
             raizPrincipal = raiz; //salva a raiz principal da arvore
@@ -59,16 +60,17 @@ public class DecisionTree {
             aresta.filho = raiz;
             aresta.filho.arestaPai = aresta;
         }
-        numeroDeNos++;
         String nomeClasse = NOME_CLASSE;
         Set<String> atributos = new HashSet<>(conjunto.get(0).atributos.keySet());
         raiz.nomeAtributos.addAll(atributos);
         raiz.nomeAtributo = classeDeMaiorFrequencia(conjunto);
 
         if (conjunto.get(0).atributos.size() > 1) {
-//            if (acuraciaEmCadaNo) { //soh calcula acuracia por nó caso queira.
-//                //  System.out.println("Acuracia com " + numeroDeNos + " Nós: " + testaAcuracia(conjuntoTeste, raizPrincipal));
-//            }
+            numeroDeNos++;
+            if (acuraciaACadaNo && (numeroDeNos % 10 == 0 || numeroDeNos == 1)) { //soh calcula acuracia por nó caso queira.
+                //System.out.println("Acuracia com " + numeroDeNos + " Nós: " + testaAcuracia(conjuntoTeste, raizPrincipal));
+                System.out.println(numeroDeNos + ";" + testaAcuracia(conjuntoTeste, raizPrincipal));
+            }
             raiz.ehFolha = false;
             raiz.nomeAtributo = maiorGanhoDeInformacao(
                     nomeClasse,
