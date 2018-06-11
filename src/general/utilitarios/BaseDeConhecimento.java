@@ -83,6 +83,7 @@ public class BaseDeConhecimento {
                     System.out.println("Deu pau ate fechando o arquivo...");
                 }
             }
+            System.exit(0);
         }
 
         List<Dado> base = new ArrayList<>(lista.size());
