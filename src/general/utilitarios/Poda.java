@@ -16,6 +16,7 @@ public class Poda implements Runnable {
     List<Dado> conjuntoDeTeste =  new ArrayList<>();
     List<Dado> conjTodo = new ArrayList<>();
     double accAnterior = 0;
+    double accNova = 0;
     public boolean podou = false;
 
     public Poda(Node raiz, Node atual, List<Dado> conjuntoDeTeste , double accAnterior , List<Dado> conjTodo){
@@ -43,6 +44,7 @@ public class Poda implements Runnable {
             System.out.println("Node antigo podado "+copia.nomeAtributo+" -> virou node "+atual.nomeAtributo+"." +
                     "Acuracia nova: "+accNova);
             this.podou = true;
+            this.accNova = accNova;
             return;
         }
         else{
@@ -58,5 +60,8 @@ public class Poda implements Runnable {
     public String calculaClasseMajoritaria(Node atual){
        if(atual.arestaPai != null) return classeDeMaiorFrequencia(atual.arestaPai.conjuntoRecortado);
        return classeDeMaiorFrequencia(conjTodo); // classe major do no raiz
+    }
+    public double getAcc(){
+        return accNova;
     }
 }

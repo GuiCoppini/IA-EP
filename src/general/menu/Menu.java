@@ -80,10 +80,9 @@ public class Menu {
         Podador phodador = new Podador();
         List<Dado>conjuntodeTeste  = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
         List<Dado>conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
-        double accFinal = testaAcuracia(conjuntodeTesteReal , raiz);
-  //      phodador.imprime(raiz);
-        System.out.println("Accuracia Inicial: "+ accFinal);
         boolean fazDnv = true;
+        double accFinal = testaAcuracia(conjuntodeTesteReal , raiz);
+        System.out.println("Accuracia Inicial: "+ accFinal);
         while(fazDnv) {
             Map<String, Node> ListaDePais = new HashMap(); // hashmap de pais
             phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
@@ -93,26 +92,29 @@ public class Menu {
                 System.out.println(" Pai  = "+pai.nomeAtributo);
                 Poda nova = new Poda(raiz, pai, conjuntodeTeste, accFinal , conjTotal);
                 podas.add(nova);
-                Thread tnova =  new Thread(nova, pai.nomeAtributo);
-                threads.add(tnova);
-                tnova.start();
-
+                nova.run();
+               // Thread tnova =  new Thread(nova, pai.nomeAtributo);
+               // threads.add(tnova);
+               // tnova.start();
+               // try{tnova.join();}
+               // catch(Exception e){}
+                if(nova.isPodou())accFinal = nova.getAcc();
             }
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~Esperando THREADS ~~~~~~~~~~~~~~~~~~~~");
-            for(Thread thread : threads){ // agora nois espera essas threads
-               try{
-                  thread.join();
-               }
-               catch(Exception e){
+       //     for(Thread thread : threads){ // agora nois espera essas threads
+        //       try{
+          //        thread.join();
+          //     }
+           //    catch(Exception e){
 
-               }
-            }
+            //   }
+           // }
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~THREADS FINALIZADAS ~~~~~~~~~~~~~~~~~~~~");
             if (phodador.checkaSePodou(podas)) fazDnv = true;
             else fazDnv = false;
         }
         System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
-        printaRegras.printaRegras(raiz);
+     //   printaRegras.printaRegras(raiz);
 
         System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz));
     }
