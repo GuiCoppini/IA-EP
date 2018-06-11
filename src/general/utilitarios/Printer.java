@@ -54,27 +54,4 @@ public class Printer {
 
     }
 
-    public void printaArvore(Node raiz, Node atual, List<Dado> conjuntoDeTeste , boolean recursive) {
-        if (atual.ehFolha) {
-            double presAntiga = ID3Utils.testaAcuracia(conjuntoDeTeste , raiz);
-            Node pai = atual.arestaPai.pai;
-            Node krone = pai.klone();
-            pai.ehFolha = true;
-            pai.arestas = null;
-            pai.nomeAtributo = ID3Utils.classeDeMaiorFrequencia(pai.arestaPai.conjuntoRecortado);
-            double presNova = ID3Utils.testaAcuracia(conjuntoDeTeste , raiz);
-            if(presNova >= presAntiga){
-                printaArvore(raiz, pai , conjuntoDeTeste, false);
-            }
-            else pai.arestaPai.filho = krone;
-            if(recursive == true)for(Branch aresta : pai.arestas) printaArvore(raiz,aresta.filho,conjuntoDeTeste , true);
-            //mudamos o pai dele para ser uma folha da classe dominante do filho
-
-            //testamos acuracia
-            //se a acuracia for maior, podamos dnv
-          //  ID3Utils.classeDeMaiorFrequencia();
-            //        ID3Utils.testaAcuracia();
-        }
-
-    }
 }
