@@ -98,6 +98,8 @@ public class Menu {
         phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
         System.out.println("Accuracia Inicial: " + accFinal);
          while(fazDnv) {
+             fazDnv = false;
+             System.out.println("~~~~~~~~~~~~~~~~INICIO ITERACAO~~~~~~~~~~~~~~");
             for (int i = 0 ; i < ListaDePais.size() ; i++) {
                 Node atual = ListaDePais.get(i);
                 System.out.println(" Pai  = " + atual.nomeAtributo);
@@ -107,14 +109,14 @@ public class Menu {
                     accFinal = nova.getAcc();
                     nosRemovidos++;
                     fazDnv = true;
-                    if (atual.arestaPai != null)
-                        ListaDePaisSecundaria.add(atual.arestaPai.pai);
+
                 }
             }
+             System.out.println("~~~~~~~~~~~~~~~~FIM ITERACAO~~~~~~~~~~~~~~");
+             ListaDePais = new ArrayList<>();
+             if(fazDnv)phodador.getListaPais(ListaDePais, raiz);// = ListaDePaisSecundaria
+           //else return;
 
-            ListaDePais = ListaDePaisSecundaria;
-            ListaDePaisSecundaria = new ArrayList<>();
-            if(ListaDePais.isEmpty()) fazDnv = false;
         }
         System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
         printaRegras.printaRegras(raiz);

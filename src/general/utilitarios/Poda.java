@@ -30,6 +30,7 @@ public class Poda {
     public void run() {
         Node copia = atual.copy(); // copiamos o no pq neh
         String classeMajor  = calculaClasseMajoritaria(atual);
+        for(int i = 0 ; i < atual.arestas.size() ; i++)atual.arestas.get(i).pai = null;
         atual.arestas = new ArrayList<>();
         atual.ehFolha = true;
         atual.nomeAtributo = classeMajor;
@@ -49,6 +50,7 @@ public class Poda {
         else{
             this.podou = false;
             atual.arestas = copia.arestas;
+            for(int i = 0 ; i < atual.arestas.size() ; i++)atual.arestas.get(i).pai = atual;
             atual.ehFolha = false;
             atual.nomeAtributo = copia.nomeAtributo;
         }
