@@ -27,6 +27,7 @@ public class Menu {
         System.out.println("b) adult_discretizado_menor.csv");
         System.out.println("c) adult_sem_fnlwgt.csv");
         System.out.println("d) PlayTennis.csv");
+        System.out.println("e) OUTRO");
         char choice = sc.nextLine().charAt(0);
         String nomeConjunto = "";
         switch(choice) {
@@ -42,7 +43,13 @@ public class Menu {
             case 'd':
                 nomeConjunto = "PlayTennis.csv";
                 break;
+            case 'e':
+                System.out.println("Qual o nome do arquivo?");
+                nomeConjunto = sc.nextLine();
         }
+
+        List<Dado> conjunto = new ArrayList<>();
+        conjunto = parseCSV(nomeConjunto);
 
         System.out.println("Deseja rodar o K-Fold Cross Validation para o conjunto "+nomeConjunto+"? [y/n]");
         char kfold = sc.nextLine().charAt(0);
@@ -50,7 +57,7 @@ public class Menu {
             System.out.println("Quantos folds voce quer?");
             int k = sc.nextInt();
             System.out.println("Rodando um "+k+"-Fold Cross Validation para " + nomeConjunto);
-            KFoldCrossValidation.roda(k, parseCSV(nomeConjunto));
+            KFoldCrossValidation.roda(k, conjunto);
             return;
         }
 
@@ -64,7 +71,7 @@ public class Menu {
 //        if(acuraciaACadaNo) {
         System.out.println("Montando a arvore para o conjunto "+ nomeConjunto +".");
 //        }
-        Node raiz = decisionTree.criaArvoreComAcuracia(parseCSV(nomeConjunto));
+        Node raiz = decisionTree.criaArvoreComAcuracia(conjunto);
 
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();

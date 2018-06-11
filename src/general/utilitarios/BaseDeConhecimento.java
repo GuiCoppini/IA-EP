@@ -3,7 +3,6 @@ package general.utilitarios;
 import general.Dado;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,16 +72,15 @@ public class BaseDeConhecimento {
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Opa! Algum erro ocorreu ao abrir o arquivo!");
+            System.out.println(e.getMessage());
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Deu pau ate fechando o arquivo...");
                 }
             }
         }
