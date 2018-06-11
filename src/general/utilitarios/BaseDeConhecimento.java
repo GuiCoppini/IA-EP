@@ -75,11 +75,11 @@ public class BaseDeConhecimento {
         } catch (IOException e) {
             System.out.println("Opa! Algum erro ocorreu ao abrir o arquivo!");
             System.out.println(e.getMessage());
+            System.exit(0);
         } finally {
             if (br != null) {
                 try {
                     br.close();
-                    System.exit(0);
                 } catch (IOException e) {
                     System.out.println("Deu pau ate fechando o arquivo...");
                     System.exit(0);
