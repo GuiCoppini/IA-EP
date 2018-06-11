@@ -1,7 +1,5 @@
 package general.arvore;
 
-import general.Dado;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class Node {
         System.out.println("-----------------------------------------------");
     }
 
-    public Node klone() {
+    public Node copy() {
         Node novo = new Node();
         novo.nomeAtributo = this.nomeAtributo;
         novo.ehFolha = this.ehFolha;

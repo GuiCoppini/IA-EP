@@ -8,8 +8,8 @@ import java.util.*;
 
 public class Podador {
     public HashMap<Integer ,Integer> sorteados = new HashMap<Integer , Integer>();
-    public boolean checkaSePodou(ArrayList<Phoda> tredis){
-        for (Phoda atual: tredis) {
+    public boolean checkaSePodou(List<Poda> tredis){
+        for (Poda atual: tredis) {
            if(atual.isPodou() == true) return true;
         }
         return false;
@@ -30,26 +30,26 @@ public class Podador {
         int tamanhoTodo = conjTodo.size();
         int tamanhoValidacao = tamanhoTodo / 3 ;
         for(int i = 0 ; i < tamanhoValidacao ; i++){
-            ret.add(conjTodo.get(SorteiaNovo(tamanhoTodo-1)));
+            ret.add(conjTodo.get(sorteiaNovo(tamanhoTodo-1)));
         }
         return ret;
     }
-    public int SorteiaNovo(int tamanhoTodo){
+    public int sorteiaNovo(int tamanhoTodo){
         Random rand = new Random();
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((tamanhoTodo - 0) + 1) + 0;
-        while(sorteados.containsKey(randomNum) == true)randomNum = rand.nextInt(((tamanhoTodo-1) - 0) + 1) + 0;
+        int randomNum = rand.nextInt(tamanhoTodo + 1);
+        while(sorteados.containsKey(randomNum) == true)randomNum = rand.nextInt((tamanhoTodo - 1) + 1);
         sorteados.put(randomNum ,randomNum);
         return randomNum;
     }
-    public void Imprime(Node raiz){
+    public void imprime(Node raiz){
         if(raiz.ehFolha == true){
             //System.out.println("Pai do folha "+raiz.arestaPai.pai.nomeAtributo);
-            for(Branch hue : raiz.arestas)System.out.println(" Lista atributos "+hue.valorCondicao);
+            for(Branch aresta : raiz.arestas)System.out.println(" Lista atributos "+aresta.valorCondicao);
             return;
         }
-        else for(Branch aresta : raiz.arestas)Imprime(aresta.filho);
+        else for(Branch aresta : raiz.arestas) imprime(aresta.filho);
     }
 }

@@ -6,18 +6,19 @@ import general.arvore.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-import static general.utilitarios.ID3Utils.*;
+import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
+import static general.utilitarios.ID3Utils.testaAcuracia;
 //import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 
-public class Phoda implements Runnable {
+public class Poda implements Runnable {
     Node raiz = null;
     Node atual = null;
     List<Dado> conjuntoDeTeste =  new ArrayList<>();
     List<Dado> conjTodo = new ArrayList<>();
     double accAnterior = 0;
-    public boolean Podou = false;
+    public boolean podou = false;
 
-    public Phoda(Node raiz, Node atual, List<Dado> conjuntoDeTeste , double accAnterior , List<Dado> conjTodo){
+    public Poda(Node raiz, Node atual, List<Dado> conjuntoDeTeste , double accAnterior , List<Dado> conjTodo){
         this.raiz = raiz;
         this.atual = atual;
         this.conjuntoDeTeste = conjuntoDeTeste;
@@ -27,28 +28,32 @@ public class Phoda implements Runnable {
 
     @Override
     public void run() {
-        Node copia = atual.klone(); // copiamos o no pq neh
+        Node copia = atual.copy(); // copiamos o no pq neh
         String classeMajor  = calculaClasseMajoritaria(atual);
         atual.arestas = new ArrayList<>();
         atual.ehFolha = true;
         atual.nomeAtributo = classeMajor;
         System.out.println("Calculando Acc nova sem o No "+copia.nomeAtributo);
         double accNova = testaAcuracia(conjuntoDeTeste , raiz);
-        System.out.println("Testando Poda para no "+copia.nomeAtributo+" Clase majoritaria "+classeMajor+" Acc com o no = "+accAnterior+" Acc sem o no = "+accNova);
+        System.out.println("Testando Poda para node "+copia.nomeAtributo+"." +
+                "Classe majoritaria "+classeMajor+"." +
+                "Acuracia com o node = "+accAnterior+"." +
+                " Acc sem o node = "+accNova+".");
         if(accNova >= accAnterior){ // podamos o jovem
-            System.out.println("No antigo podado "+copia.nomeAtributo+" Virou no "+atual.nomeAtributo+" Acc nova = "+accNova);
-            this.Podou = true;
+            System.out.println("Node antigo podado "+copia.nomeAtributo+" -> virou node "+atual.nomeAtributo+"." +
+                    "Acuracia nova: "+accNova);
+            this.podou = true;
             return;
         }
         else{
-            this.Podou = false;
+            this.podou = false;
             atual.arestas = copia.arestas;
             atual.ehFolha = false;
             atual.nomeAtributo = copia.nomeAtributo;
         }
     }
     public boolean isPodou(){
-        return Podou;
+        return podou;
     }
     public String calculaClasseMajoritaria(Node atual){
        if(atual.arestaPai != null) return classeDeMaiorFrequencia(atual.arestaPai.conjuntoRecortado);

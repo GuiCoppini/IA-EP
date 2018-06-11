@@ -4,7 +4,7 @@ import general.Dado;
 import general.arvore.DecisionTree;
 import general.arvore.Node;
 import general.utilitarios.KFoldCrossValidation;
-import general.utilitarios.Phoda;
+import general.utilitarios.Poda;
 import general.utilitarios.Podador;
 import general.utilitarios.Printer;
 
@@ -74,37 +74,39 @@ public class Menu {
         List<Dado>conjuntodeTeste  = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
         List<Dado>conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
         double accFinal = testaAcuracia(conjuntodeTesteReal , raiz);
-  //      phodador.Imprime(raiz);
-        System.out.println("Accuracia Inicial "+accFinal);
+  //      phodador.imprime(raiz);
+        System.out.println("Accuracia Inicial: "+ accFinal);
         boolean fazDnv = true;
         while(fazDnv) {
             Map<String, Node> ListaDePais = new HashMap(); // hashmap de pais
             phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
-            ArrayList<Phoda> phodas = new ArrayList<Phoda>(); // arraylist de threads
-            ArrayList<Thread> threads = new ArrayList<Thread>();
+            List<Poda> podas = new ArrayList<>(); // arraylist de threads
+            List<Thread> threads = new ArrayList<>();
             for (Node pai : ListaDePais.values()) {
                 System.out.println(" Pai  = "+pai.nomeAtributo);
-                Phoda nova = new Phoda(raiz, pai, conjuntodeTeste, accFinal , conjTotal);
-                phodas.add(nova);
+                Poda nova = new Poda(raiz, pai, conjuntodeTeste, accFinal , conjTotal);
+                podas.add(nova);
                 Thread tnova =  new Thread(nova, pai.nomeAtributo);
                 threads.add(tnova);
                 tnova.start();
 
             }
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~Esperando THREADS ~~~~~~~~~~~~~~~~~~~~");
-            for(Thread tredi : threads){ // agora nois espera essas threads
+            for(Thread thread : threads){ // agora nois espera essas threads
                try{
-                  tredi.join();
+                  thread.join();
                }
                catch(Exception e){
 
                }
             }
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~THREADS FINALIZADAS ~~~~~~~~~~~~~~~~~~~~");
-            if (phodador.checkaSePodou(phodas)) fazDnv = true;
+            if (phodador.checkaSePodou(podas)) fazDnv = true;
             else fazDnv = false;
         }
         System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
         printaRegras.printaRegras(raiz);
+
+        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz));
     }
 }
