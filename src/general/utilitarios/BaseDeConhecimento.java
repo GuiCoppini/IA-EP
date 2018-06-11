@@ -100,7 +100,6 @@ public class BaseDeConhecimento {
         for (String s : colunas) {
             nomeAtributos.add(s);
         }
-        System.out.println("Terminou Parse");
         NOME_CLASSE = nomeAtributos.get(nomeAtributos.size() - 1);
     }
 
