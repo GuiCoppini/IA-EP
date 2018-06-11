@@ -4,7 +4,10 @@ import general.Dado;
 import general.arvore.Branch;
 import general.arvore.Node;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Podador {
     public HashMap<Integer ,Integer> sorteados = new HashMap<Integer , Integer>();
@@ -47,7 +50,7 @@ public class Podador {
     public void imprime(Node raiz){
         if(raiz.ehFolha == true){
             //System.out.println("Pai do folha "+raiz.arestaPai.pai.nomeAtributo);
-            for(Branch aresta : raiz.arestas)System.out.println(" Lista atributos "+aresta.valorCondicao);
+            for(Branch aresta : raiz.arestas)System.out.println("Lista atributos "+aresta.valorCondicao);
             return;
         }
         else for(Branch aresta : raiz.arestas) imprime(aresta.filho);

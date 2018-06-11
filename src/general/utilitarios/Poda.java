@@ -33,7 +33,7 @@ public class Poda {
         atual.arestas = new ArrayList<>();
         atual.ehFolha = true;
         atual.nomeAtributo = classeMajor;
-        System.out.println("Calculando Acc nova sem o No "+copia.nomeAtributo);
+        System.out.println("Calculando Acc nova sem o node "+copia.nomeAtributo);
         double accNova = testaAcuracia(conjuntoDeTeste , raiz);
         System.out.println("Testando Poda para node "+copia.nomeAtributo+"." +
                 "Classe majoritaria "+classeMajor+"." +

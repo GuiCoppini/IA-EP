@@ -8,11 +8,12 @@ import general.utilitarios.Poda;
 import general.utilitarios.Podador;
 import general.utilitarios.Printer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 import static general.utilitarios.BaseDeConhecimento.parseCSV;
 import static general.utilitarios.ID3Utils.testaAcuracia;
-import static java.lang.Thread.sleep;
 
 public class Menu {
     public static void main(String[] args) {
@@ -118,6 +119,8 @@ public class Menu {
         System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
         printaRegras.printaRegras(raiz);
 
-        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz)+" A incial era "+accTeste+" Nos removidos "+nosRemovidos);
+        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz)+"." +
+                " A incial era "+accTeste+"." +
+                " Nodes removidos "+nosRemovidos);
     }
 }
