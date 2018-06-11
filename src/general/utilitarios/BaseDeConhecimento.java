@@ -79,11 +79,12 @@ public class BaseDeConhecimento {
             if (br != null) {
                 try {
                     br.close();
+                    System.exit(0);
                 } catch (IOException e) {
                     System.out.println("Deu pau ate fechando o arquivo...");
+                    System.exit(0);
                 }
             }
-            System.exit(0);
         }
 
         List<Dado> base = new ArrayList<>(lista.size());
