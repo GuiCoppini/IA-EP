@@ -12,6 +12,7 @@ import java.util.*;
 
 import static general.utilitarios.BaseDeConhecimento.parseCSV;
 import static general.utilitarios.ID3Utils.testaAcuracia;
+import static java.lang.Thread.sleep;
 
 public class Menu {
     public static void main(String[] args) {
@@ -85,41 +86,38 @@ public class Menu {
     private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras) {
         List<Dado> conjTotal = parseCSV(nomeConjunto);
         Podador phodador = new Podador();
-        List<Dado>conjuntodeTeste  = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
-        List<Dado>conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
+        List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
+        List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
         boolean fazDnv = true;
-        double accFinal = testaAcuracia(conjuntodeTesteReal , raiz);
-        System.out.println("Accuracia Inicial: "+ accFinal);
-        while(fazDnv) {
-            Map<String, Node> ListaDePais = new HashMap(); // hashmap de pais
-            phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
-            List<Poda> podas = new ArrayList<>(); // arraylist de threads
-            List<Thread> threads = new ArrayList<>();
-            for (Node pai : ListaDePais.values()) {
-                System.out.println(" Pai  = "+pai.nomeAtributo);
-                Poda nova = new Poda(raiz, pai, conjuntodeTeste, accFinal , conjTotal);
-                podas.add(nova);
-                Thread tnova =  new Thread(nova, pai.nomeAtributo);
-                threads.add(tnova);
-                tnova.start();
-
+        double accFinal = testaAcuracia(conjuntodeTesteReal, raiz);
+        double accTeste = accFinal;
+        int nosRemovidos = 0;
+        List<Node> ListaDePais = new ArrayList<>(); // hashmap de pais
+        List<Node> ListaDePaisSecundaria = new ArrayList<>();
+        phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
+        System.out.println("Accuracia Inicial: " + accFinal);
+         while(fazDnv) {
+            for (int i = 0 ; i < ListaDePais.size() ; i++) {
+                Node atual = ListaDePais.get(i);
+                System.out.println(" Pai  = " + atual.nomeAtributo);
+                Poda nova = new Poda(raiz, atual, conjuntodeTeste, accFinal, conjTotal);
+                nova.run();
+                if (nova.isPodou()) {
+                    accFinal = nova.getAcc();
+                    nosRemovidos++;
+                    fazDnv = true;
+                    if (atual.arestaPai != null)
+                        ListaDePaisSecundaria.add(atual.arestaPai.pai);
+                }
             }
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~Esperando THREADS ~~~~~~~~~~~~~~~~~~~~");
-            for(Thread thread : threads){ // agora nois espera essas threads
-               try{
-                  thread.join();
-               }
-               catch(Exception e){
 
-               }
-            }
-            System.out.println("~~~~~~~~~~~~~~~~~~~~~~THREADS FINALIZADAS ~~~~~~~~~~~~~~~~~~~~");
-            if (phodador.checkaSePodou(podas)) fazDnv = true;
-            else fazDnv = false;
+            ListaDePais = ListaDePaisSecundaria;
+            ListaDePaisSecundaria = new ArrayList<>();
+            if(ListaDePais.isEmpty()) fazDnv = false;
         }
         System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
         printaRegras.printaRegras(raiz);
 
-        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz));
+        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz)+" A incial era "+accTeste+" Nos removidos "+nosRemovidos);
     }
 }

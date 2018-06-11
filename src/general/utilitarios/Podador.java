@@ -14,11 +14,11 @@ public class Podador {
         }
         return false;
     }
-    public void getListaPais(Map<String, Node> ListaDePais , Node atual) {
+    public void getListaPais(List<Node> ListaDePais , Node atual) {
         if (atual.ehFolha) {
             if(atual.arestaPai != null) { // qnd n for o raiz
-                if (ListaDePais.get(atual.arestaPai.pai.nomeAtributo) == null)
-                    ListaDePais.put(atual.arestaPai.pai.nomeAtributo, atual.arestaPai.pai); // nao adcionar duas vezes o mesmo no
+                if (ListaDePais.contains(atual.arestaPai.pai.nomeAtributo) == false)
+                    ListaDePais.add(atual.arestaPai.pai); // nao adcionar duas vezes o mesmo no
             }
         }
         else if(atual != null){

@@ -10,7 +10,7 @@ import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 import static general.utilitarios.ID3Utils.testaAcuracia;
 //import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 
-public class Poda implements Runnable {
+public class Poda {
     Node raiz = null;
     Node atual = null;
     List<Dado> conjuntoDeTeste =  new ArrayList<>();
@@ -27,7 +27,6 @@ public class Poda implements Runnable {
         this.conjTodo = conjTodo;
     }
 
-    @Override
     public void run() {
         Node copia = atual.copy(); // copiamos o no pq neh
         String classeMajor  = calculaClasseMajoritaria(atual);
