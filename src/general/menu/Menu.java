@@ -48,7 +48,7 @@ public class Menu {
                 nomeConjunto = sc.nextLine();
         }
 
-        List<Dado> conjunto = new ArrayList<>();
+        List<Dado> conjunto;
         conjunto = parseCSV(nomeConjunto);
 
         System.out.println("Deseja rodar o K-Fold Cross Validation para o conjunto "+nomeConjunto+"? [y/n]");
