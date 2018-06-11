@@ -119,8 +119,8 @@ public class Menu {
         System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
         printaRegras.printaRegras(raiz);
 
-        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz)+"." +
-                " A incial era "+accTeste+"." +
-                " Nodes removidos "+nosRemovidos);
+        System.out.println("Acuracia INICIAL da arvore: " + accTeste+".\n" +
+                "Acuracia FINAL da arvore: "+testaAcuracia(conjuntodeTesteReal , raiz)+".\n" +
+                "Nodes removidos: "+nosRemovidos);
     }
 }
