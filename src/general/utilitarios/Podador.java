@@ -17,7 +17,7 @@ public class Podador {
     public void getListaPais(List<Node> ListaDePais , Node atual) {
         if (atual.ehFolha) {
             if(atual.arestaPai != null) { // qnd n for o raiz
-                if (ListaDePais.contains(atual.arestaPai.pai.nomeAtributo) == false)
+                if (ListaDePais.contains(atual.arestaPai.pai) == false)
                     ListaDePais.add(atual.arestaPai.pai); // nao adcionar duas vezes o mesmo no
             }
         }

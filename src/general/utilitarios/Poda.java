@@ -1,6 +1,7 @@
 package general.utilitarios;
 
 import general.Dado;
+import general.arvore.Branch;
 import general.arvore.Node;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Poda {
     public void run() {
         Node copia = atual.copy(); // copiamos o no pq neh
         String classeMajor  = calculaClasseMajoritaria(atual);
+        //for(Branch a : atual.arestas)a.pai = null;
         atual.arestas = new ArrayList<>();
         atual.ehFolha = true;
         atual.nomeAtributo = classeMajor;
@@ -51,6 +53,7 @@ public class Poda {
             atual.arestas = copia.arestas;
             atual.ehFolha = false;
             atual.nomeAtributo = copia.nomeAtributo;
+            //for(Branch a : atual.arestas)a.pai = atual;
         }
     }
     public boolean isPodou(){
