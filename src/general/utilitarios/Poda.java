@@ -42,6 +42,7 @@ public class Poda {
                 "Acuracia com o node = "+accAnterior+"." +
                 " Acc sem o node = "+accNova+".");
         if(accNova >= accAnterior){ // podamos o jovem
+        numeroDeNos++;
             System.out.println("Node antigo podado "+copia.nomeAtributo+" -> virou node "+atual.nomeAtributo+"." +
                     "Acuracia nova: "+accNova);
             this.podou = true;

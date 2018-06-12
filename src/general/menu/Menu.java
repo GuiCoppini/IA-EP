@@ -34,7 +34,7 @@ public class Menu {
         String nomeConjunto = "";
         switch(choice) {
             case 'a':
-                nomeConjunto = "adult_discretizado_v1.csv";
+                nomeConjunto = "/projects/IA-EP/adult_discretizado_v1.csv";
                 break;
             case 'b':
                 nomeConjunto = "adult_discretizado_menor.csv";
@@ -67,6 +67,7 @@ public class Menu {
         char holdout = sc.nextLine().charAt(0);
         if(holdout == 'y') {
             Holdout.roda(parseCSV(nomeConjunto));
+            return;
         }
 
         System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto "+nomeConjunto+"!");
