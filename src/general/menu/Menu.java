@@ -1,19 +1,18 @@
 package general.menu;
 
-import general.Dado;
-import general.arvore.DecisionTree;
-import general.arvore.Node;
-import general.utilitarios.KFoldCrossValidation;
-import general.utilitarios.Poda;
-import general.utilitarios.Podador;
-import general.utilitarios.Printer;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import general.Dado;
+import general.arvore.DecisionTree;
+import general.arvore.Node;
 import static general.utilitarios.BaseDeConhecimento.parseCSV;
+import general.utilitarios.Holdout;
 import static general.utilitarios.ID3Utils.testaAcuracia;
+import general.utilitarios.KFoldCrossValidation;
+import static general.utilitarios.KFoldCrossValidation.divideListaEm;
+import general.utilitarios.Podador;
+import general.utilitarios.Printer;
 
 public class Menu {
     public static void main(String[] args) {
@@ -63,6 +62,12 @@ public class Menu {
             return;
         }
 
+        System.out.println("E o Holdout? [y/n]");
+        char holdout = sc.nextLine().charAt(0);
+        if(holdout == 'y') {
+            Holdout.roda(parseCSV(nomeConjunto));
+        }
+
         System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto "+nomeConjunto+"!");
 
         DecisionTree decisionTree = new DecisionTree();
@@ -73,56 +78,19 @@ public class Menu {
 //        if(acuraciaACadaNo) {
         System.out.println("Montando a arvore para o conjunto "+ nomeConjunto +".");
 //        }
-        Node raiz = decisionTree.criaArvoreComAcuracia(conjunto);
+        Node raiz = decisionTree.criaArvore(conjunto);
 
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
         printaRegras.printaRegras(raiz);
         System.out.println("Deseja podar a arvore? [y/n]");
         if('y' == sc.nextLine().charAt(0)) {
-            podaEPrinta(nomeConjunto, raiz, printaRegras);
+            List<Dado> cjTeste = divideListaEm(conjunto, 3).get(1);
+            double accInicial = testaAcuracia(cjTeste, raiz);
+            Podador.poda(raiz, cjTeste);
+            System.out.println("Acuracia inicial: " + accInicial);
+            System.out.println("Acuracia final: "+ testaAcuracia(cjTeste, raiz));
+            printaRegras.printaRegras(raiz);
         }
-    }
-
-    private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras) {
-        List<Dado> conjTotal = parseCSV(nomeConjunto);
-        Podador phodador = new Podador();
-        List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
-        List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
-        boolean fazDnv = true;
-        double accFinal = testaAcuracia(conjuntodeTesteReal, raiz);
-        double accTeste = accFinal;
-        int nosRemovidos = 0;
-        List<Node> ListaDePais = new ArrayList<>(); // hashmap de pais
-        List<Node> ListaDePaisSecundaria = new ArrayList<>();
-        phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
-        System.out.println("Accuracia Inicial: " + accFinal);
-         while(fazDnv) {
-             fazDnv = false;
-             System.out.println("~~~~~~~~~~~~~~~~INICIO ITERACAO~~~~~~~~~~~~~~");
-            for (int i = 0 ; i < ListaDePais.size() ; i++) {
-                Node atual = ListaDePais.get(i);
-                System.out.println(" Pai  = " + atual.nomeAtributo);
-                Poda nova = new Poda(raiz, atual, conjuntodeTeste, accFinal, conjTotal);
-                nova.run();
-                if (nova.isPodou()) {
-                    accFinal = nova.getAcc();
-                    nosRemovidos++;
-                    fazDnv = true;
-
-                }
-            }
-             System.out.println("~~~~~~~~~~~~~~~~FIM ITERACAO~~~~~~~~~~~~~~");
-             ListaDePais = new ArrayList<>();
-             if(fazDnv)phodador.getListaPais(ListaDePais, raiz);// = ListaDePaisSecundaria
-           //else return;
-
-        }
-        System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
-        printaRegras.printaRegras(raiz);
-
-        System.out.println("Acuracia INICIAL da arvore: " + accTeste+".\n" +
-                "Acuracia FINAL da arvore: "+testaAcuracia(conjuntodeTesteReal , raiz)+".\n" +
-                "Nodes removidos: "+nosRemovidos);
     }
 }
