@@ -1,16 +1,23 @@
 package general.utilitarios;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
 import general.Dado;
 import general.arvore.Branch;
 import general.arvore.Node;
-
-import java.util.*;
+import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
+import static general.utilitarios.ID3Utils.testaAcuracia;
 
 public class Podador {
+    private static Node RAIZ_MAIN;
+    public static int nodesPodados = 0;
     public HashMap<Integer ,Integer> sorteados = new HashMap<Integer , Integer>();
     public boolean checkaSePodou(List<Poda> tredis){
         for (Poda atual: tredis) {
-           if(atual.isPodou() == true) return true;
+            if(atual.isPodou() == true) return true;
         }
         return false;
     }
@@ -47,9 +54,48 @@ public class Podador {
     public void imprime(Node raiz){
         if(raiz.ehFolha == true){
             //System.out.println("Pai do folha "+raiz.arestaPai.pai.nomeAtributo);
-            for(Branch aresta : raiz.arestas)System.out.println(" Lista atributos "+aresta.valorCondicao);
+            for(Branch aresta : raiz.arestas)System.out.println("Lista atributos "+aresta.valorCondicao);
             return;
         }
         else for(Branch aresta : raiz.arestas) imprime(aresta.filho);
+    }
+
+    public static void poda(Node raiz, List<Dado> cjTeste) {
+        if(RAIZ_MAIN == null) RAIZ_MAIN = raiz;
+        if(raiz.ehFolha) return;
+        double accVelha = testaAcuracia(cjTeste, RAIZ_MAIN);
+
+        boolean todosFolhas = true;
+        for(Branch aresta : raiz.arestas) {
+            if(!aresta.filho.ehFolha) todosFolhas = false;
+        }
+        if(todosFolhas) return; // todos sao yes/nolhas = true;
+        for(Branch aresta : raiz.arestas) {
+            if(!aresta.filho.ehFolha) todosFolhas = false;
+        }
+        if(todosFolhas) return; // todos sao yes/no, n faz sentido podar
+
+        List<Branch> copiaArestas = new ArrayList<>(raiz.arestas);
+        for(Branch aresta : copiaArestas) {
+            Node filho = aresta.filho.copy(); // vai ser arrancado
+            raiz.arestas.remove(aresta);
+
+            filho.arestaPai = null;
+            aresta.filho = new Node();
+            aresta.filho.nomeAtributo = classeDeMaiorFrequencia(aresta.conjuntoRecortado);
+            aresta.filho.ehFolha = true;
+            double accNova = testaAcuracia(cjTeste, RAIZ_MAIN);
+
+            if(accVelha > accNova) { // nao vai podar, arruma ponteiros
+//                System.out.println("Nao poda");
+                raiz.arestas.add(aresta);
+                filho.arestaPai = aresta;
+                aresta.filho = filho;
+                poda(aresta.filho, cjTeste);
+            } else {
+                nodesPodados++;
+                System.out.println("Podou o node "+ raiz.nomeAtributo + " e tirou o node "+ filho.nomeAtributo);
+            }
+        }
     }
 }

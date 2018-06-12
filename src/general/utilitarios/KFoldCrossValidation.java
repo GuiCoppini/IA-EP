@@ -1,12 +1,12 @@
 package general.utilitarios;
 
-import general.Dado;
-import general.arvore.DecisionTree;
-import general.arvore.Node;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import general.Dado;
+import general.arvore.DecisionTree;
+import general.arvore.Node;
 
 public class KFoldCrossValidation {
 
@@ -73,7 +73,7 @@ public class KFoldCrossValidation {
         return erroMedio;
     }
 
-    private static List<List<Dado>> divideListaEm(List<Dado> todosOsDados, int kFolds) {
+    public static List<List<Dado>> divideListaEm(List<Dado> todosOsDados, int kFolds) {
         List<List<Dado>> result = new ArrayList<>(); // onde vai ser retornado
 
         inicializaResult(kFolds, result); // deixa tudo cheio de new ArrayList

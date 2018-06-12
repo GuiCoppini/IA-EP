@@ -75,12 +75,14 @@ public class BaseDeConhecimento {
         } catch (IOException e) {
             System.out.println("Opa! Algum erro ocorreu ao abrir o arquivo!");
             System.out.println(e.getMessage());
+            System.exit(0);
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
                     System.out.println("Deu pau ate fechando o arquivo...");
+                    System.exit(0);
                 }
             }
         }
@@ -98,7 +100,6 @@ public class BaseDeConhecimento {
         for (String s : colunas) {
             nomeAtributos.add(s);
         }
-        System.out.println("Terminou Parse");
         NOME_CLASSE = nomeAtributos.get(nomeAtributos.size() - 1);
     }
 

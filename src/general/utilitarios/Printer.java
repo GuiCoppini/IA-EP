@@ -1,20 +1,23 @@
 package general.utilitarios;
 
-import general.Dado;
-import general.Regra;
-import general.arvore.Branch;
-import general.arvore.Node;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import general.Regra;
+import general.arvore.Branch;
+import general.arvore.Node;
 
 public class Printer {
     public Map<String, List<Regra>> regrasDeClasses;
 
     public Printer() {
         this.regrasDeClasses = new HashMap<>();
+    }
+
+    public void limpaRegras() {
+        this.regrasDeClasses.clear();
     }
 
     public void printaRegras(Node raiz) {
@@ -25,8 +28,12 @@ public class Printer {
         // imprime as regras
         for (String classe : regrasDeClasses.keySet()) {
             System.out.print("IF ");
-            for (Regra regra : regrasDeClasses.get(classe)) {
-                System.out.print("(" + regra + ") || ");
+//            for (Regra regra : regrasDeClasses.get(classe)) {
+            for (int i = 0; i< regrasDeClasses.get(classe).size(); i++) {
+                System.out.print("(" + regrasDeClasses.get(classe).get(i) + ") ");
+                if(i < regrasDeClasses.get(classe).size() - 1) {
+                    System.out.print("|| ");
+                }
             }
             System.out.print("THEN [" + classe + "]");
             System.out.println();

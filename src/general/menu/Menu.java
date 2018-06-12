@@ -1,18 +1,18 @@
 package general.menu;
 
+import java.util.List;
+import java.util.Scanner;
+
 import general.Dado;
 import general.arvore.DecisionTree;
 import general.arvore.Node;
+import static general.utilitarios.BaseDeConhecimento.parseCSV;
+import general.utilitarios.Holdout;
+import static general.utilitarios.ID3Utils.testaAcuracia;
 import general.utilitarios.KFoldCrossValidation;
-import general.utilitarios.Poda;
+import static general.utilitarios.KFoldCrossValidation.divideListaEm;
 import general.utilitarios.Podador;
 import general.utilitarios.Printer;
-
-import java.util.*;
-
-import static general.utilitarios.BaseDeConhecimento.parseCSV;
-import static general.utilitarios.ID3Utils.testaAcuracia;
-import static java.lang.Thread.sleep;
 
 public class Menu {
     public static void main(String[] args) {
@@ -62,6 +62,12 @@ public class Menu {
             return;
         }
 
+        System.out.println("E o Holdout? [y/n]");
+        char holdout = sc.nextLine().charAt(0);
+        if(holdout == 'y') {
+            Holdout.roda(parseCSV(nomeConjunto));
+        }
+
         System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto "+nomeConjunto+"!");
 
         DecisionTree decisionTree = new DecisionTree();
@@ -72,11 +78,13 @@ public class Menu {
 //        if(acuraciaACadaNo) {
         System.out.println("Montando a arvore para o conjunto "+ nomeConjunto +".");
 //        }
-        Node raiz = decisionTree.criaArvoreComAcuracia(conjunto);
+        Node raiz = decisionTree.criaArvore(conjunto);
 
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
         printaRegras.printaRegras(raiz);
+        printaRegras.limpaRegras();
+
         System.out.println("Deseja podar a arvore? [y/n]");
         if('y' == sc.nextLine().charAt(0)) {
             podaEPrinta(nomeConjunto, raiz, printaRegras);
@@ -115,9 +123,5 @@ public class Menu {
             ListaDePaisSecundaria = new ArrayList<>();
             if(ListaDePais.isEmpty()) fazDnv = false;
         }
-        System.out.println("As regras que representam a NOVA arvore depois da poda sao:");
-        printaRegras.printaRegras(raiz);
-
-        System.out.println("A acuracia final da arvore eh: " + testaAcuracia(conjuntodeTesteReal , raiz)+" A incial era "+accTeste+" Nos removidos "+nosRemovidos);
     }
 }

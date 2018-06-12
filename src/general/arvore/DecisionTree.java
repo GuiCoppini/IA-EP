@@ -1,13 +1,19 @@
 package general.arvore;
 
-import general.Dado;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static general.utilitarios.BaseDeConhecimento.*;
-import static general.utilitarios.ID3Utils.*;
+import general.Dado;
+import static general.utilitarios.BaseDeConhecimento.NOME_CLASSE;
+import static general.utilitarios.BaseDeConhecimento.filter;
+import static general.utilitarios.BaseDeConhecimento.removeAttribute;
+import static general.utilitarios.ID3Utils.analisaFrequencias;
+import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
+import static general.utilitarios.ID3Utils.entropiaConjunto;
+import static general.utilitarios.ID3Utils.inicializaFreq;
+import static general.utilitarios.ID3Utils.maiorGanhoDeInformacao;
+import static general.utilitarios.ID3Utils.testaAcuracia;
 
 public class DecisionTree {
 
@@ -22,7 +28,7 @@ public class DecisionTree {
 //        System.out.println();
 //    }
 
-    public Node criaArvoreComAcuracia(List<Dado> conjunto) {
+    public Node criaArvore(List<Dado> conjunto) {
         return criaSubArvore(conjunto, true, null, false);
     }
 
