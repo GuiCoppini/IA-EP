@@ -8,10 +8,12 @@ import java.util.Random;
 import general.Dado;
 import general.arvore.Branch;
 import general.arvore.Node;
+import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 import static general.utilitarios.ID3Utils.testaAcuracia;
 
 public class Podador {
     private static Node RAIZ_MAIN;
+    public static int nodesPodados = 0;
     public HashMap<Integer ,Integer> sorteados = new HashMap<Integer , Integer>();
     public boolean checkaSePodou(List<Poda> tredis){
         for (Poda atual: tredis) {
@@ -66,6 +68,8 @@ public class Podador {
             filho.arestaPai = null;
             aresta.filho = null;
             aresta.pai.ehFolha = true;
+            aresta.filho = new Node();
+            filho.nomeAtributo = classeDeMaiorFrequencia(aresta.conjuntoRecortado);
             double accNova = testaAcuracia(cjTeste, RAIZ_MAIN);
             if(accVelha > accNova) {
                 System.out.println("Nao poda");
@@ -74,6 +78,7 @@ public class Podador {
                 aresta.pai.ehFolha = false;
                 poda(aresta.filho, cjTeste);
             } else {
+                nodesPodados++;
                 System.out.println("Podou!!!!!!!!!!!!!!!!!!!!!!!!");
             }
         }

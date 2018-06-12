@@ -90,6 +90,7 @@ public class Menu {
             Podador.poda(raiz, cjTeste);
             System.out.println("Acuracia inicial: " + accInicial);
             System.out.println("Acuracia final: "+ testaAcuracia(cjTeste, raiz));
+            System.out.println("Nodes podados = "+ Podador.nodesPodados);
             printaRegras.printaRegras(raiz);
         }
     }
