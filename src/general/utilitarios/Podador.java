@@ -17,7 +17,7 @@ public class Podador {
     public HashMap<Integer ,Integer> sorteados = new HashMap<Integer , Integer>();
     public boolean checkaSePodou(List<Poda> tredis){
         for (Poda atual: tredis) {
-           if(atual.isPodou() == true) return true;
+            if(atual.isPodou() == true) return true;
         }
         return false;
     }
@@ -65,11 +65,12 @@ public class Podador {
         double accVelha = testaAcuracia(cjTeste, RAIZ_MAIN);
         for(Branch aresta : raiz.arestas) {
             Node filho = aresta.filho;
+
             filho.arestaPai = null;
-            aresta.filho = null;
-            aresta.pai.ehFolha = true;
+
             aresta.filho = new Node();
-            filho.nomeAtributo = classeDeMaiorFrequencia(aresta.conjuntoRecortado);
+            aresta.filho.nomeAtributo = classeDeMaiorFrequencia(aresta.conjuntoRecortado);
+            aresta.filho.ehFolha = true;
             double accNova = testaAcuracia(cjTeste, RAIZ_MAIN);
             if(accVelha > accNova) {
                 System.out.println("Nao poda");
@@ -79,7 +80,7 @@ public class Podador {
                 poda(aresta.filho, cjTeste);
             } else {
                 nodesPodados++;
-                System.out.println("Podou!!!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Podou! Acuracia vai de " + accVelha + " a " + accNova);
             }
         }
     }
