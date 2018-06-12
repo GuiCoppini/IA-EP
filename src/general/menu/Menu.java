@@ -83,6 +83,8 @@ public class Menu {
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
         printaRegras.printaRegras(raiz);
+        printaRegras.limpaRegras();
+
         System.out.println("Deseja podar a arvore? [y/n]");
         if('y' == sc.nextLine().charAt(0)) {
             List<Dado> cjTeste = divideListaEm(conjunto, 3).get(1);
@@ -90,7 +92,7 @@ public class Menu {
             Podador.poda(raiz, cjTeste);
             System.out.println("Acuracia inicial: " + accInicial);
             System.out.println("Acuracia final: "+ testaAcuracia(cjTeste, raiz));
-            System.out.println("Nodes podados = "+ Podador.nodesPodados);
+            System.out.println("Nodes podados (sem considerar os filhos) = "+ Podador.nodesPodados);
             printaRegras.printaRegras(raiz);
         }
     }

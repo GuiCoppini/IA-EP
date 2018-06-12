@@ -62,25 +62,26 @@ public class Podador {
 
     public static void poda(Node raiz, List<Dado> cjTeste) {
         if(RAIZ_MAIN == null) RAIZ_MAIN = raiz;
+        if(raiz.ehFolha) return;
         double accVelha = testaAcuracia(cjTeste, RAIZ_MAIN);
         for(Branch aresta : raiz.arestas) {
-            Node filho = aresta.filho;
+            Node filho = aresta.filho.copy(); // vai ser arrancado
 
             filho.arestaPai = null;
-
             aresta.filho = new Node();
             aresta.filho.nomeAtributo = classeDeMaiorFrequencia(aresta.conjuntoRecortado);
             aresta.filho.ehFolha = true;
             double accNova = testaAcuracia(cjTeste, RAIZ_MAIN);
-            if(accVelha > accNova) {
-                System.out.println("Nao poda");
+
+            if(accVelha > accNova) { // nao vai podar, arruma ponteiros
+//                System.out.println("Nao poda");
                 filho.arestaPai = aresta;
                 aresta.filho = filho;
-                aresta.pai.ehFolha = false;
+//                aresta.pai.ehFolha = false;
                 poda(aresta.filho, cjTeste);
             } else {
                 nodesPodados++;
-                System.out.println("Podou! Acuracia vai de " + accVelha + " a " + accNova);
+//                System.out.println("Podou! Acuracia vai de " + accVelha + " a " + accNova);
             }
         }
     }
