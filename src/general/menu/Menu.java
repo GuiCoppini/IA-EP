@@ -87,13 +87,41 @@ public class Menu {
 
         System.out.println("Deseja podar a arvore? [y/n]");
         if('y' == sc.nextLine().charAt(0)) {
-            List<Dado> cjTeste = divideListaEm(conjunto, 3).get(1);
-            double accInicial = testaAcuracia(cjTeste, raiz);
-            Podador.poda(raiz, cjTeste);
-            System.out.println("Acuracia inicial: " + accInicial);
-            System.out.println("Acuracia final: "+ testaAcuracia(cjTeste, raiz));
-            System.out.println("Nodes podados (sem considerar os filhos) = "+ Podador.nodesPodados);
-            printaRegras.printaRegras(raiz);
+            podaEPrinta(nomeConjunto, raiz, printaRegras);
+        }
+    }
+
+    private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras) {
+        List<Dado> conjTotal = parseCSV(nomeConjunto);
+        Podador phodador = new Podador();
+        List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
+        List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
+        boolean fazDnv = true;
+        double accFinal = testaAcuracia(conjuntodeTesteReal, raiz);
+        double accTeste = accFinal;
+        int nosRemovidos = 0;
+        List<Node> ListaDePais = new ArrayList<>(); // hashmap de pais
+        List<Node> ListaDePaisSecundaria = new ArrayList<>();
+        phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
+        System.out.println("Accuracia Inicial: " + accFinal);
+         while(fazDnv) {
+            for (int i = ListaDePais.size()-1 ; i >= 0 ; i--) {
+                Node atual = ListaDePais.get(i);
+                System.out.println(" Pai  = " + atual.nomeAtributo);
+                Poda nova = new Poda(raiz, atual, conjuntodeTeste, accFinal, conjTotal);
+                nova.run();
+                if (nova.isPodou()) {
+                    accFinal = nova.getAcc();
+                    nosRemovidos++;
+                    fazDnv = true;
+                    if (atual.arestaPai != null)
+                        ListaDePaisSecundaria.add(atual.arestaPai.pai);
+                }
+            }
+
+            ListaDePais = ListaDePaisSecundaria;
+            ListaDePaisSecundaria = new ArrayList<>();
+            if(ListaDePais.isEmpty()) fazDnv = false;
         }
     }
 }
