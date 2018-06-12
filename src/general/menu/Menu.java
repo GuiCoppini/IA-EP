@@ -1,5 +1,6 @@
 package general.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,7 +11,7 @@ import static general.utilitarios.BaseDeConhecimento.parseCSV;
 import general.utilitarios.Holdout;
 import static general.utilitarios.ID3Utils.testaAcuracia;
 import general.utilitarios.KFoldCrossValidation;
-import static general.utilitarios.KFoldCrossValidation.divideListaEm;
+import general.utilitarios.Poda;
 import general.utilitarios.Podador;
 import general.utilitarios.Printer;
 
@@ -123,5 +124,8 @@ public class Menu {
             ListaDePaisSecundaria = new ArrayList<>();
             if(ListaDePais.isEmpty()) fazDnv = false;
         }
+        System.out.println("Regras novas da arvore:");
+        printaRegras.limpaRegras();
+        printaRegras.printaRegras(raiz);
     }
 }
