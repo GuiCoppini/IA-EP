@@ -64,8 +64,21 @@ public class Podador {
         if(RAIZ_MAIN == null) RAIZ_MAIN = raiz;
         if(raiz.ehFolha) return;
         double accVelha = testaAcuracia(cjTeste, RAIZ_MAIN);
+
+        boolean todosFolhas = true;
         for(Branch aresta : raiz.arestas) {
+            if(!aresta.filho.ehFolha) todosFolhas = false;
+        }
+        if(todosFolhas) return; // todos sao yes/nolhas = true;
+        for(Branch aresta : raiz.arestas) {
+            if(!aresta.filho.ehFolha) todosFolhas = false;
+        }
+        if(todosFolhas) return; // todos sao yes/no, n faz sentido podar
+
+        List<Branch> copiaArestas = new ArrayList<>(raiz.arestas);
+        for(Branch aresta : copiaArestas) {
             Node filho = aresta.filho.copy(); // vai ser arrancado
+            raiz.arestas.remove(aresta);
 
             filho.arestaPai = null;
             aresta.filho = new Node();
@@ -75,12 +88,13 @@ public class Podador {
 
             if(accVelha > accNova) { // nao vai podar, arruma ponteiros
 //                System.out.println("Nao poda");
+                raiz.arestas.add(aresta);
                 filho.arestaPai = aresta;
                 aresta.filho = filho;
                 poda(aresta.filho, cjTeste);
             } else {
                 nodesPodados++;
-//                System.out.println("Podou o node "+ raiz.nomeAtributo + " | "+ accVelha + " a " + accNova);
+                System.out.println("Podou o node "+ raiz.nomeAtributo + " e tirou o node "+ filho.nomeAtributo);
             }
         }
     }
