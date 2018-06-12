@@ -1,15 +1,17 @@
 package general.utilitarios;
 
-import general.Dado;
-import general.arvore.Branch;
-import general.arvore.Node;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import general.Dado;
+import general.arvore.Branch;
+import general.arvore.Node;
+import static general.utilitarios.ID3Utils.testaAcuracia;
+
 public class Podador {
+    private static Node RAIZ_MAIN;
     public HashMap<Integer ,Integer> sorteados = new HashMap<Integer , Integer>();
     public boolean checkaSePodou(List<Poda> tredis){
         for (Poda atual: tredis) {
@@ -54,5 +56,26 @@ public class Podador {
             return;
         }
         else for(Branch aresta : raiz.arestas) imprime(aresta.filho);
+    }
+
+    public static void poda(Node raiz, List<Dado> cjTeste) {
+        if(RAIZ_MAIN == null) RAIZ_MAIN = raiz;
+        double accVelha = testaAcuracia(cjTeste, RAIZ_MAIN);
+        for(Branch aresta : raiz.arestas) {
+            Node filho = aresta.filho;
+            filho.arestaPai = null;
+            aresta.filho = null;
+            aresta.pai.ehFolha = true;
+            double accNova = testaAcuracia(cjTeste, RAIZ_MAIN);
+            if(accVelha > accNova) {
+                System.out.println("Nao poda");
+                filho.arestaPai = aresta;
+                aresta.filho = filho;
+                aresta.pai.ehFolha = false;
+                poda(aresta.filho, cjTeste);
+            } else {
+                System.out.println("Podou!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+        }
     }
 }
