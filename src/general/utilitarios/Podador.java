@@ -77,11 +77,10 @@ public class Podador {
 //                System.out.println("Nao poda");
                 filho.arestaPai = aresta;
                 aresta.filho = filho;
-//                aresta.pai.ehFolha = false;
                 poda(aresta.filho, cjTeste);
             } else {
                 nodesPodados++;
-//                System.out.println("Podou! Acuracia vai de " + accVelha + " a " + accNova);
+//                System.out.println("Podou o node "+ raiz.nomeAtributo + " | "+ accVelha + " a " + accNova);
             }
         }
     }
