@@ -94,7 +94,7 @@ public class Menu {
         List<Dado> conjuntoDeTeste = divideEm3.get(1);
         List<Dado> conjuntoDeValidacao = divideEm3.get(2);
 
-        Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);
+        Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento); //Playtennis, colocar o conjunto completo pois é muito pequeno.
 
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
