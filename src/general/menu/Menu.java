@@ -1,15 +1,20 @@
 package general.menu;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 import general.Dado;
 import general.arvore.DecisionTree;
 import general.arvore.Node;
+
 import static general.utilitarios.BaseDeConhecimento.parseCSV;
+
 import general.utilitarios.Holdout;
+
 import static general.utilitarios.ID3Utils.testaAcuracia;
+
 import general.utilitarios.KFoldCrossValidation;
 import general.utilitarios.Poda;
 import general.utilitarios.Podador;
@@ -32,7 +37,7 @@ public class Menu {
         System.out.println("e) OUTRO");
         char choice = sc.nextLine().charAt(0);
         String nomeConjunto = "";
-        switch(choice) {
+        switch (choice) {
             case 'a':
                 nomeConjunto = "adult_discretizado_v1.csv";
                 break;
@@ -53,24 +58,24 @@ public class Menu {
         List<Dado> conjunto;
         conjunto = parseCSV(nomeConjunto);
 
-        System.out.println("Deseja rodar o K-Fold Cross Validation para o conjunto "+nomeConjunto+"? [y/n]");
+        System.out.println("Deseja rodar o K-Fold Cross Validation para o conjunto " + nomeConjunto + "? [y/n]");
         char kfold = sc.nextLine().charAt(0);
-        if(kfold == 'y') {
+        if (kfold == 'y') {
             System.out.println("Quantos folds voce quer?");
             int k = sc.nextInt();
-            System.out.println("Rodando um "+k+"-Fold Cross Validation para " + nomeConjunto);
+            System.out.println("Rodando um " + k + "-Fold Cross Validation para " + nomeConjunto);
             KFoldCrossValidation.roda(k, conjunto);
             return;
         }
 
         System.out.println("E o Holdout? [y/n]");
         char holdout = sc.nextLine().charAt(0);
-        if(holdout == 'y') {
+        if (holdout == 'y') {
             Holdout.roda(parseCSV(nomeConjunto));
             //return;
         }
 
-        System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto "+nomeConjunto+"!");
+        System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto " + nomeConjunto + "!");
 
         DecisionTree decisionTree = new DecisionTree();
 
@@ -78,44 +83,55 @@ public class Menu {
 //        char bool = sc.nextLine().charAt(0);
 //        boolean acuraciaACadaNo = bool == 'y';
 //        if(acuraciaACadaNo) {
-        System.out.println("Montando a arvore para o conjunto "+ nomeConjunto +".");
+        System.out.println("Montando a arvore para o conjunto " + nomeConjunto + ".");
 //        }
-        Node raiz = decisionTree.criaArvore(conjunto);
+
+        //Dividir conjunto em 3, para próximo passo
+
+        Collections.shuffle(conjunto); //embaralha para nao ficar viciado;
+        List<List<Dado>> divideEm3 = KFoldCrossValidation.divideListaEm(conjunto, 3);
+        List<Dado> conjuntoDeTreinamento = divideEm3.get(0);
+        List<Dado> conjuntoDeTeste = divideEm3.get(1);
+        List<Dado> conjuntoDeValidacao = divideEm3.get(2);
+
+        Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);
 
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
         printaRegras.printaRegras(raiz);
         printaRegras.limpaRegras();
 
+        System.out.println("Deseja ver a árvore construida por nó? [y/n]");
+        if ('y' == sc.nextLine().charAt(0)) {
+            DecisionTree accNO = new DecisionTree();
+            accNO.criaArvoreComAcuracia(conjuntoDeTreinamento, conjuntoDeTeste);
+        }
+
         System.out.println("Deseja podar a arvore? [y/n]");
-        if('y' == sc.nextLine().charAt(0)) {
-            podaEPrinta(nomeConjunto, raiz, printaRegras);
+        if ('y' == sc.nextLine().charAt(0)) {
+            podaEPrinta(nomeConjunto, raiz, printaRegras, conjuntoDeValidacao);
         }
     }
 
-    private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras) {
+    private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras, List<Dado> conjuntoValidacao) {
         List<Dado> conjTotal = parseCSV(nomeConjunto);
         Podador phodador = new Podador();
-        List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
-        List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
-       //precisa terminar.
-        List<List<Dado>> divideEm3 = KFoldCrossValidation.divideListaEm(conjTotal,3);
-        List<Dado> conjuntoDeTreinamento = divideEm3.get(0);
-        List<Dado> conjuntoDeTeste = divideEm3.get(1);
-        List<Dado> conjuntoDeValidacao = divideEm3.get(2);
+        //List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
+        //List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
+
         boolean fazDnv = true;
-        double accFinal = testaAcuracia(conjuntodeTesteReal, raiz);
+        double accFinal = testaAcuracia(conjuntoValidacao, raiz);
         double accTeste = accFinal;
         int nosRemovidos = 0;
         List<Node> ListaDePais = new ArrayList<>(); // hashmap de pais
         List<Node> ListaDePaisSecundaria = new ArrayList<>();
         phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
         System.out.println("Accuracia Inicial: " + accFinal);
-         while(fazDnv) {
-            for (int i = ListaDePais.size()-1 ; i >= 0 ; i--) {
+        while (fazDnv) {
+            for (int i = ListaDePais.size() - 1; i >= 0; i--) {
                 Node atual = ListaDePais.get(i);
                 System.out.println(" Pai  = " + atual.nomeAtributo);
-                Poda nova = new Poda(raiz, atual, conjuntodeTeste, accFinal, conjTotal);
+                Poda nova = new Poda(raiz, atual, conjuntoValidacao, accFinal, conjTotal);
                 nova.run();
                 if (nova.isPodou()) {
                     accFinal = nova.getAcc();
@@ -128,7 +144,7 @@ public class Menu {
 
             ListaDePais = ListaDePaisSecundaria;
             ListaDePaisSecundaria = new ArrayList<>();
-            if(ListaDePais.isEmpty()) fazDnv = false;
+            if (ListaDePais.isEmpty()) fazDnv = false;
         }
         System.out.println("Regras novas da arvore:");
         printaRegras.limpaRegras();
