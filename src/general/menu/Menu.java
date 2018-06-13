@@ -34,7 +34,7 @@ public class Menu {
         String nomeConjunto = "";
         switch(choice) {
             case 'a':
-                nomeConjunto = "/projects/IA-EP/adult_discretizado_v1.csv";
+                nomeConjunto = "adult_discretizado_v1.csv";
                 break;
             case 'b':
                 nomeConjunto = "adult_discretizado_menor.csv";
@@ -67,7 +67,7 @@ public class Menu {
         char holdout = sc.nextLine().charAt(0);
         if(holdout == 'y') {
             Holdout.roda(parseCSV(nomeConjunto));
-            return;
+            //return;
         }
 
         System.out.println("Otimo, agora vamos comecar a montar a arvore para o conjunto "+nomeConjunto+"!");
@@ -98,6 +98,11 @@ public class Menu {
         Podador phodador = new Podador();
         List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
         List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
+       //precisa terminar.
+        List<List<Dado>> divideEm3 = KFoldCrossValidation.divideListaEm(conjTotal,3);
+        List<Dado> conjuntoDeTreinamento = divideEm3.get(0);
+        List<Dado> conjuntoDeTeste = divideEm3.get(1);
+        List<Dado> conjuntoDeValidacao = divideEm3.get(2);
         boolean fazDnv = true;
         double accFinal = testaAcuracia(conjuntodeTesteReal, raiz);
         double accTeste = accFinal;

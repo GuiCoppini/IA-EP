@@ -24,13 +24,14 @@ public class Holdout {
         Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento);
 
         double acuraciaTeste = ID3Utils.testaAcuracia(conjuntoDeTeste, raiz);
-        List<Double> erroVerdadeiro = taxaErroVerdadeiro(acuracias, todosOsDados.size(), acuraciaTeste);
+        double erroMedio = 1.0-acuraciaTeste;
+        List<Double> erroVerdadeiro = taxaErroVerdadeiro(todosOsDados.size(), erroMedio);
         System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro.get(0) + " e " + erroVerdadeiro.get(1));
  
     }
     
-    private static List<Double> taxaErroVerdadeiro(List<Double> acuracias, int totalDeRegistros , double erroMedio) {
-        double erroModelo = calculaErroModelo(acuracias, totalDeRegistros, erroMedio);
+    private static List<Double> taxaErroVerdadeiro(int totalDeRegistros , double erroMedio) {
+        double erroModelo = calculaErroModelo(totalDeRegistros, erroMedio);
         List<Double> confianca95 = new ArrayList<>();
         //double erroMedio = erroMedio(acuracias, totalDeRegistros);
         confianca95.add(erroMedio - (1.96 * erroModelo));
@@ -38,7 +39,7 @@ public class Holdout {
         return confianca95;
     }
 
-    private static double calculaErroModelo(List<Double> acuracias, int totalDeRegistros , double erroMedio) {
+    private static double calculaErroModelo(int totalDeRegistros , double erroMedio) {
         //double erroMedio = erroMedio(acuracias, totalDeRegistros);
         double erroTotal = Math.sqrt((erroMedio * (1 - erroMedio)) / (double) totalDeRegistros);
         System.out.println("Erro Medio = " + erroMedio);

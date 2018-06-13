@@ -10,8 +10,8 @@ import java.util.List;
 import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 import static general.utilitarios.ID3Utils.testaAcuracia;
 //import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
-
 public class Poda {
+
     Node raiz = null;
     Node atual = null;
     List<Dado> conjuntoDeTeste =  new ArrayList<>();
@@ -42,7 +42,6 @@ public class Poda {
                 "Acuracia com o node = "+accAnterior+"." +
                 " Acc sem o node = "+accNova+".");
         if(accNova >= accAnterior){ // podamos o jovem
-        numeroDeNos++;
             System.out.println("Node antigo podado "+copia.nomeAtributo+" -> virou node "+atual.nomeAtributo+"." +
                     "Acuracia nova: "+accNova);
             this.podou = true;
