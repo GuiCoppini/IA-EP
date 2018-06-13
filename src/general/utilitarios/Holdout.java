@@ -11,7 +11,8 @@ import static general.utilitarios.KFoldCrossValidation.divideListaEm;
 
 public class Holdout {
     public static void roda(List<Dado> todosOsDados) {
-        List<List<Dado>> listaDivididaEmTres = divideListaEm(todosOsDados, 3);
+        List<Dado> dadosCopy = new ArrayList<>(todosOsDados);
+        List<List<Dado>> listaDivididaEmTres = divideListaEm(dadosCopy, 3);
 
         List<Dado> conjuntoDeTeste = listaDivididaEmTres.get(2); // ultimo cara
 
@@ -25,7 +26,7 @@ public class Holdout {
 
         double acuraciaTeste = ID3Utils.testaAcuracia(conjuntoDeTeste, raiz);
         double erroMedio = 1.0-acuraciaTeste;
-        List<Double> erroVerdadeiro = taxaErroVerdadeiro(todosOsDados.size(), erroMedio);
+        List<Double> erroVerdadeiro = taxaErroVerdadeiro(dadosCopy.size(), erroMedio);
         System.out.println("O erro verdadeiro do modelo, com uma confianca de 95%, estará entre: " + erroVerdadeiro.get(0) + " e " + erroVerdadeiro.get(1));
  
     }
