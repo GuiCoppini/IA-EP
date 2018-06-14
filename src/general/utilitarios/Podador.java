@@ -22,14 +22,14 @@ public class Podador {
         return false;
     }
     public void getListaPais(List<Node> ListaDePais , Node atual) {
-        if (atual.ehFolha) {
-            if(atual.arestaPai != null) { // qnd n for o raiz
-                if (ListaDePais.contains(atual.arestaPai.pai) == false)
-                    ListaDePais.add(atual.arestaPai.pai); // nao adcionar duas vezes o mesmo no
-            }
-        }
-        else if(atual != null){
+         if(atual != null){
             for(int i = 0; i < atual.arestas.size(); i++) getListaPais(ListaDePais , atual.arestas.get(i).filho);
+             if (atual.ehFolha && atual != RAIZ_MAIN) {
+                 if(atual.arestaPai != null) { // qnd n for o raiz
+                     if (ListaDePais.contains(atual.arestaPai.pai) == false)
+                         ListaDePais.add(atual.arestaPai.pai); // nao adcionar duas vezes o mesmo no
+                 }
+             }
         }
     }
     public List<Dado> getConjValidacao(List<Dado> conjTodo){

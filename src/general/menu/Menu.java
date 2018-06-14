@@ -129,7 +129,7 @@ public class Menu {
         phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
         System.out.println("Accuracia Inicial: " + accFinal);
         while (fazDnv) {
-            for (int i = ListaDePais.size() - 1; i >= 0; i--) {
+            for (int i = 0 ; i <  ListaDePais.size(); i++) {
                 Node atual = ListaDePais.get(i);
                 //System.out.println(" Pai  = " + atual.nomeAtributo);
                 Poda nova = new Poda(raiz, atual, conjuntoValidacao, accFinal, conjTotal);
