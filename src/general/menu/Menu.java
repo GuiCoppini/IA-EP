@@ -9,8 +9,9 @@ import general.Dado;
 import general.arvore.DecisionTree;
 import general.arvore.Node;
 
-import static general.utilitarios.BaseDeConhecimento.parseCSV;
 
+import static general.utilitarios.BaseDeConhecimento.parseCSV;
+    
 import general.utilitarios.Holdout;
 
 import static general.utilitarios.ID3Utils.testaAcuracia;
@@ -87,7 +88,7 @@ public class Menu {
 //        }
 
         //Dividir conjunto em 3, para próximo passo
-
+        System.out.println("Dividindo o conjunto em 3 conjuntos de mesmo tamanho: ");
         Collections.shuffle(conjunto); //embaralha para nao ficar viciado;
         List<List<Dado>> divideEm3 = KFoldCrossValidation.divideListaEm(conjunto, 3);
         List<Dado> conjuntoDeTreinamento = divideEm3.get(0);
@@ -130,12 +131,13 @@ public class Menu {
         while (fazDnv) {
             for (int i = ListaDePais.size() - 1; i >= 0; i--) {
                 Node atual = ListaDePais.get(i);
-                System.out.println(" Pai  = " + atual.nomeAtributo);
+                //System.out.println(" Pai  = " + atual.nomeAtributo);
                 Poda nova = new Poda(raiz, atual, conjuntoValidacao, accFinal, conjTotal);
                 nova.run();
                 if (nova.isPodou()) {
                     accFinal = nova.getAcc();
                     nosRemovidos++;
+                    System.out.println(nosRemovidos + ";" + accFinal );
                     fazDnv = true;
                     if (atual.arestaPai != null)
                         ListaDePaisSecundaria.add(atual.arestaPai.pai);

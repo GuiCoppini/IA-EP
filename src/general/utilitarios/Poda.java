@@ -11,7 +11,7 @@ import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 import static general.utilitarios.ID3Utils.testaAcuracia;
 //import static general.utilitarios.ID3Utils.classeDeMaiorFrequencia;
 public class Poda {
-
+        
     Node raiz = null;
     Node atual = null;
     List<Dado> conjuntoDeTeste =  new ArrayList<>();
@@ -35,15 +35,15 @@ public class Poda {
         atual.arestas = new ArrayList<>();
         atual.ehFolha = true;
         atual.nomeAtributo = classeMajor;
-        System.out.println("Calculando Acc nova sem o node "+copia.nomeAtributo);
+        //System.out.println("Calculando Acc nova sem o node "+copia.nomeAtributo);
         double accNova = testaAcuracia(conjuntoDeTeste , raiz);
-        System.out.println("Testando Poda para node "+copia.nomeAtributo+"." +
-                "Classe majoritaria "+classeMajor+"." +
-                "Acuracia com o node = "+accAnterior+"." +
-                " Acc sem o node = "+accNova+".");
+        //System.out.println("Testando Poda para node "+copia.nomeAtributo+"." +
+               // "Classe majoritaria "+classeMajor+"." +
+           //     "Acuracia com o node = "+accAnterior+"." +
+            //    " Acc sem o node = "+accNova+".");
         if(accNova >= accAnterior){ // podamos o jovem
-            System.out.println("Node antigo podado "+copia.nomeAtributo+" -> virou node "+atual.nomeAtributo+"." +
-                    "Acuracia nova: "+accNova);
+            //System.out.println("Node antigo podado "+copia.nomeAtributo+" -> virou node "+atual.nomeAtributo+"." +
+              //      "Acuracia nova: "+accNova);
             this.podou = true;
             this.accNova = accNova;
             return;
