@@ -20,13 +20,6 @@ public class DecisionTree {
     Node raizPrincipal = null;
     int numeroDeNos = 0;
     List<Dado> conjuntoTeste = null;
-//    public static void main(String[] args) {
-//        DecisionTree decisionTree = new DecisionTree();
-//        List<Dado> conjunto = parseCSV();
-//        Node raiz = decisionTree.criaSubArvore(conjunto, true);
-//        System.out.println(ID3Utils.testaAcuracia(conjunto, raiz));
-//        System.out.println();
-//    }
 
     public Node criaArvore(List<Dado> conjunto) {
         return criaSubArvore(conjunto, true, null, false);
