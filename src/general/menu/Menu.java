@@ -11,7 +11,7 @@ import general.arvore.Node;
 
 
 import static general.utilitarios.BaseDeConhecimento.parseCSV;
-    
+
 import general.utilitarios.Holdout;
 
 import static general.utilitarios.ID3Utils.testaAcuracia;
@@ -97,15 +97,19 @@ public class Menu {
 
         Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento); //Playtennis, colocar o conjunto completo pois é muito pequeno.
 
-        System.out.println("As regras que representam a arvore antes da poda sao:");
+//        System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
-        printaRegras.printaRegras(raiz);
-        printaRegras.limpaRegras();
+//        printaRegras.printaRegras(raiz);
+//        printaRegras.limpaRegras();
 
         System.out.println("Deseja ver a árvore construida por nó? [y/n]");
         if ('y' == sc.nextLine().charAt(0)) {
             DecisionTree accNO = new DecisionTree();
-            accNO.criaArvoreComAcuracia(conjuntoDeTreinamento, conjuntoDeTeste);
+            System.out.println("Testando por  nó com o conjunto de treinamento");
+            accNO.criaArvoreComAcuracia(conjuntoDeTreinamento, conjuntoDeTreinamento);
+            System.out.println("Testando por  nó com o conjunto de teste");
+            DecisionTree accNO2 = new DecisionTree();
+            accNO2.criaArvoreComAcuracia(conjuntoDeTreinamento, conjuntoDeTeste);
         }
 
         System.out.println("Deseja podar a arvore? [y/n]");
@@ -129,7 +133,7 @@ public class Menu {
         phodador.getListaPais(ListaDePais, raiz); // devolve todos os pais dos nos folhas sem repeticao
         System.out.println("Accuracia Inicial: " + accFinal);
         while (fazDnv) {
-            for (int i = 0 ; i <  ListaDePais.size(); i++) {
+            for (int i = 0; i < ListaDePais.size(); i++) {
                 Node atual = ListaDePais.get(i);
                 //System.out.println(" Pai  = " + atual.nomeAtributo);
                 Poda nova = new Poda(raiz, atual, conjuntoValidacao, accFinal, conjTotal);
@@ -137,7 +141,7 @@ public class Menu {
                 if (nova.isPodou()) {
                     accFinal = nova.getAcc();
                     nosRemovidos++;
-                    System.out.println(nosRemovidos + ";" + accFinal );
+                    System.out.println(nosRemovidos + ";" + accFinal);
                     fazDnv = true;
                     if (atual.arestaPai != null)
                         ListaDePaisSecundaria.add(atual.arestaPai.pai);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import general.Dado;
+
 import static general.utilitarios.BaseDeConhecimento.NOME_CLASSE;
 import static general.utilitarios.BaseDeConhecimento.filter;
 import static general.utilitarios.BaseDeConhecimento.removeAttribute;
@@ -70,7 +71,7 @@ public class DecisionTree {
 
         if (conjunto.get(0).atributos.size() > 1) {
             numeroDeNos++;
-            if (acuraciaACadaNo && (numeroDeNos % 10 == 0 || numeroDeNos == 1)) { //soh calcula acuracia por nó caso queira.
+            if (acuraciaACadaNo && (numeroDeNos % 50 == 0 || numeroDeNos == 1)) { //soh calcula acuracia por nó caso queira.
                 //System.out.println("Acuracia com " + numeroDeNos + " Nós: " + testaAcuracia(conjuntoTeste, raizPrincipal));
                 System.out.println(numeroDeNos + ";" + testaAcuracia(conjuntoTeste, raizPrincipal));
             }
