@@ -97,10 +97,10 @@ public class Menu {
 
         Node raiz = decisionTree.criaArvore(conjuntoDeTreinamento); //Playtennis, colocar o conjunto completo pois é muito pequeno.
 
-//        System.out.println("As regras que representam a arvore antes da poda sao:");
+        System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
-//        printaRegras.printaRegras(raiz);
-//        printaRegras.limpaRegras();
+        printaRegras.printaRegras(raiz);
+        printaRegras.limpaRegras();
 
         System.out.println("Deseja ver a árvore construida por nó? [y/n]");
         if ('y' == sc.nextLine().charAt(0)) {
