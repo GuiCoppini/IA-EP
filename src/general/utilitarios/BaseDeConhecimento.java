@@ -50,7 +50,7 @@ public class BaseDeConhecimento {
     }
 
     public static List<Dado> parseCSV(String csvFileName) {
-        String csvFile = csvFileName;//"adult_discretizado_menor.csv";////"adult_discretizado_menor.csv";
+        String csvFile = csvFileName;
         BufferedReader br = null;
         String line;
         String splitBy = ";";

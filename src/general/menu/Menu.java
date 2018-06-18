@@ -32,10 +32,8 @@ public class Menu {
         System.out.println("Para escolher as opcoes, digite a letra correspondente e de enter.");
         System.out.println("Deseja construir a ID3 para qual dataset?");
         System.out.println("a) adult_discretizado_v1.csv");
-        System.out.println("b) adult_discretizado_menor.csv");
-        System.out.println("c) adult_sem_fnlwgt.csv");
-        System.out.println("d) PlayTennis.csv");
-        System.out.println("e) OUTRO");
+        System.out.println("b) PlayTennis.csv");
+        System.out.println("c) OUTRO");
         char choice = sc.nextLine().charAt(0);
         String nomeConjunto = "";
         switch (choice) {
@@ -43,15 +41,9 @@ public class Menu {
                 nomeConjunto = "adult_discretizado_v1.csv";
                 break;
             case 'b':
-                nomeConjunto = "adult_discretizado_menor.csv";
-                break;
-            case 'c':
-                nomeConjunto = "adult_sem_fnlwgt.csv";
-                break;
-            case 'd':
                 nomeConjunto = "PlayTennis.csv";
                 break;
-            case 'e':
+            case 'c':
                 System.out.println("Qual o nome do arquivo?");
                 nomeConjunto = sc.nextLine();
         }
@@ -80,10 +72,6 @@ public class Menu {
 
         DecisionTree decisionTree = new DecisionTree();
 
-//        System.out.println("Deseja printar a acuracia a cada no? [y/n] (Isso ira interferir no tempo de execucao do algoritmo.)");
-//        char bool = sc.nextLine().charAt(0);
-//        boolean acuraciaACadaNo = bool == 'y';
-//        if(acuraciaACadaNo) {
         System.out.println("Montando a arvore para o conjunto " + nomeConjunto + ".");
 //        }
 
@@ -121,9 +109,6 @@ public class Menu {
     private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras, List<Dado> conjuntoValidacao) {
         List<Dado> conjTotal = parseCSV(nomeConjunto);
         Podador phodador = new Podador();
-        //List<Dado> conjuntodeTeste = phodador.getConjValidacao(conjTotal); // chama teste mas eh o de validacao
-        //List<Dado> conjuntodeTesteReal = phodador.getConjValidacao(conjTotal); // esse eh o de teste msm
-
         boolean fazDnv = true;
         double accFinal = testaAcuracia(conjuntoValidacao, raiz);
         double accTeste = accFinal;
@@ -135,7 +120,6 @@ public class Menu {
         while (fazDnv) {
             for (int i = 0; i < ListaDePais.size(); i++) {
                 Node atual = ListaDePais.get(i);
-                //System.out.println(" Pai  = " + atual.nomeAtributo);
                 Poda nova = new Poda(raiz, atual, conjuntoValidacao, accFinal, conjTotal);
                 nova.run();
                 if (nova.isPodou()) {
