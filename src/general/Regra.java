@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Regra {
-    protected Map<String, String> valores;
+    public Map<String, String> valores;
 
     public double numeroDeOcorrencias = 0;
 

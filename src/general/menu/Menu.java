@@ -83,6 +83,7 @@ public class Menu {
         System.out.println("As regras que representam a arvore antes da poda sao:");
         Printer printaRegras = new Printer();
         printaRegras.printaRegras(raiz);
+        //printaRegras.ordenaEPrinta(conjuntoDeValidacao, raiz);
         printaRegras.limpaRegras();
 
         System.out.println("Deseja ver a árvore construida por nó? [y/n]");
@@ -98,7 +99,10 @@ public class Menu {
         System.out.println("Deseja podar a arvore? [y/n]");
         if ('y' == sc.nextLine().charAt(0)) {
             podaEPrinta(nomeConjunto, raiz, printaRegras, conjuntoDeValidacao);
+            System.out.println("Rankeando pós poda");
+            printaRegras.ordenaEPrinta(conjuntoDeValidacao, raiz);
         }
+
 
     }
 
