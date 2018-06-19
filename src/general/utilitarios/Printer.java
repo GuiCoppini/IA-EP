@@ -19,6 +19,7 @@ public class Printer {
 
     public void limpaRegras() {
         this.regrasDeClasses.clear();
+        this.ocorrenciasDaRegra.clear();
     }
 
     public Map<Regra, List<Dado>> analisaBase(List<Dado> conjunto) {
