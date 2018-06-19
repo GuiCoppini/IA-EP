@@ -6,6 +6,8 @@ import java.util.Map;
 public class Regra {
     protected Map<String, String> valores;
 
+    public double numeroDeOcorrencias = 0;
+
     public Regra() {
         this.valores = new HashMap<>();
     }

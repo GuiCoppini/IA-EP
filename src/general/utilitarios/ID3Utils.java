@@ -1,5 +1,6 @@
 package general.utilitarios;
 
+import com.sun.xml.internal.rngom.parse.host.Base;
 import general.Dado;
 import general.FrequenciaValorAtributo;
 import general.arvore.Branch;
@@ -242,6 +243,5 @@ public class ID3Utils {
         }
         return frequencia;
     }
-
 
 }

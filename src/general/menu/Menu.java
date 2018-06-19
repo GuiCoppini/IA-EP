@@ -12,14 +12,9 @@ import general.arvore.Node;
 
 import static general.utilitarios.BaseDeConhecimento.parseCSV;
 
-import general.utilitarios.Holdout;
+import general.utilitarios.*;
 
 import static general.utilitarios.ID3Utils.testaAcuracia;
-
-import general.utilitarios.KFoldCrossValidation;
-import general.utilitarios.Poda;
-import general.utilitarios.Podador;
-import general.utilitarios.Printer;
 
 public class Menu {
     public static void main(String[] args) {
@@ -104,7 +99,9 @@ public class Menu {
         if ('y' == sc.nextLine().charAt(0)) {
             podaEPrinta(nomeConjunto, raiz, printaRegras, conjuntoDeValidacao);
         }
+
     }
+
 
     private static void podaEPrinta(String nomeConjunto, Node raiz, Printer printaRegras, List<Dado> conjuntoValidacao) {
         List<Dado> conjTotal = parseCSV(nomeConjunto);
@@ -127,11 +124,8 @@ public class Menu {
                     nosRemovidos++;
                     System.out.println(nosRemovidos + ";" + accFinal);
                     fazDnv = true;
-                    if (atual.arestaPai != null)
-                        ListaDePaisSecundaria.add(atual.arestaPai.pai);
                 }
             }
-
             ListaDePais = ListaDePaisSecundaria;
             ListaDePaisSecundaria = new ArrayList<>();
             if (ListaDePais.isEmpty()) fazDnv = false;
